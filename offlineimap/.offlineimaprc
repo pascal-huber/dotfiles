@@ -1,0 +1,75 @@
+##################################################################
+# General
+##################################################################
+
+[general]
+accounts = Private, ETH, QuickshiftPascal
+maxsyncaccounts = 1
+pythonfile = ~/.offlineimap.py
+
+##################################################################
+# Private
+##################################################################
+
+[Account Private]
+localrepository = PrivateLocal
+remoterepository = PrivateRemote
+
+[Repository PrivateLocal]
+type = Maildir
+localfolders = ~/.mail/r
+
+[Repository PrivateRemote]
+type = IMAP
+remotehost = mail.infomaniak.com
+remoteuser = pascal.huber@resolved.ch
+remotepasseval = get_keyring_pw('pascal.huber@resolved.ch')
+realdelete = no
+ssl = yes
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+##################################################################
+# ETHZ
+##################################################################
+
+[Account ETH]
+localrepository = ETHLocal
+remoterepository = ETHRemote
+
+[Repository ETHLocal]
+type = Maildir
+localfolders = ~/.mail/e
+
+[Repository ETHRemote]
+type = IMAP
+remotehost = mail.ethz.ch
+remoteport = 993
+remoteuser = pahuber
+remotepasseval = get_keyring_pw('pahuber@student.ethz.ch')
+realdelete = no
+folderfilter = lambda folder: folder in ['INBOX', 'Drafts', 'Sent Items', 'INBOX/tmp', 'INBOX/keep', 'INBOX/and', 'INBOX/algolab-old', 'INBOX/apc', 'INBOX/oop', 'Deleted Items', 'Junk E-Mail', 'INBOX/iml', 'INBOX/asl', 'INBOX/pass', 'INBOX/negotiation', 'INBOX/podc', 'INBOX/algolab', 'INBOX/failure', 'INBOX/umwelt', 'INBOX/dphpc', 'INBOX/pai', 'INBOX/syssec', 'INBOX/informal', 'INBOX/comparch']
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+##################################################################
+# QuickShift
+##################################################################
+
+[Account QuickshiftPascal]
+localrepository = QuickshiftPascalLocal
+remoterepository = QuickshiftPascalRemote
+
+[Repository QuickshiftPascalLocal]
+type = Maildir
+localfolders = ~/.mail/q
+
+[Repository QuickshiftPascalRemote]
+# holdconnection = yes
+# holdconnectionopen = true
+# keepalive = 60
+type = IMAP
+remotehost = webmail.your-server.de
+remoteuser = pascal@quickshift.ch
+remotepasseval = get_keyring_pw('pascal@quickshift.ch')
+realdelete = no
+ssl = yes
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt

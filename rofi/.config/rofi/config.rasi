@@ -1,0 +1,9 @@
+ configuration {
+    font: "Iosevka Term Slab 14";
+
+    show-icons: true;
+    /*
+    icon-theme: "MY_ICON_THEME";
+    */
+}
+@theme "gruvbox-dark.rasi"

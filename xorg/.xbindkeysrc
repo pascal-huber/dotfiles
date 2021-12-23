@@ -1,0 +1,53 @@
+
+#------------------------------
+# Main Applications
+#------------------------------
+
+"emacsclient -nc"
+Mod2+Mod4 + v
+
+"xst"
+Mod2+Mod4 + Return
+
+"rofi -show combi -modi combi -combi-modi run,drun -sort true -levenshtein-sort"
+Mod2+Mod4 + space
+
+"find-files"
+Mod2+Mod4 + period
+
+"brave-browser-stable"
+Mod2+Mod4 + x
+
+"firefox --new-window"
+Mod2+Mod4 + c
+
+"~/bin/audiocontrol"
+Mod2+Mod4 + b
+
+# "urxvt -name ncpamixer -e ncpamixer"
+# Mod2+Mod4 + b
+#
+"scrot -s ~/tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
+Mod2+Mod4 + y
+
+"rofi -show window"
+Mod2+Mod4 + comma
+
+# "keepassxc"
+# Mod2+Mod4 + slash
+
+#------------------------------
+# Media Keys
+#------------------------------
+
+"pactl set-sink-volume @DEFAULT_SINK@ +1%"
+XF86AudioRaiseVolume
+
+"pactl set-sink-volume @DEFAULT_SINK@ -1%"
+XF86AudioLowerVolume
+
+"xbacklight -inc 5"
+XF86MonBrightnessUp
+
+"xbacklight -dec 5"
+XF86MonBrightnessDown

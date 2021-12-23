@@ -1,0 +1,66 @@
+! -----------------------------------------------------------------------------
+! Useful Links
+! -----------------------------------------------------------------------------
+!
+! themes: https://github.com/logico-dev/Xresources-themes
+! gruvbox contrib: https://github.com/morhetz/gruvbox-contrib
+
+
+!-------------------------------------------------------------------------------
+! xst
+!-------------------------------------------------------------------------------
+
+st.termname:     xst-256color
+st.font: Iosevka Nerd Font Mono:size=12:regular
+
+!-------------------------------------------------------------------------------
+! Arbitrary Settings
+!-------------------------------------------------------------------------------
+
+Xft.dpi: 141
+Xcursor.size: 48
+
+!-------------------------------------------------------------------------------
+! XTerm Settings
+!-------------------------------------------------------------------------------
+
+XTerm*termName: xterm-256color
+XTerm.vt100.locale: false
+XTerm.vt100.utf8: true
+XTerm.vt100.faceName: Iosevka Nerd Font Mono:size=12
+
+!-------------------------------------------------------------------------------
+! URxvt Settings
+!-------------------------------------------------------------------------------
+
+URxvt*termName: rxvt-unicode-256color
+urxvt.perl-ext-common: default,tabbed,matcher,-tabbed
+
+! Font
+URxvt*font:           xft:Iosevka Nerd Font Mono:size=12:regular
+URxvt*boldFont:       xft:Iosevka Nerd Font Mono:size=12:bold
+URxvt*italicFont:     xft:Iosevka Nerd Font Mono:size=12:italic
+URxvt*imFont:         xft:Iosevka Nerd Font Mono:size=12:italic
+URxvt*boldItalicFont: xft:Iosevka Nerd Font Mono:size=12:bold:italic
+
+! disable ctrl-shift
+URxvt*iso14755_52: false
+URxvt*iso14755: false
+
+! Scrollbar
+URxvt.scrollBar:            true
+URxvt.scrollBar_right:      true
+URxvt.scrollColor:          #202020
+URxvt.troughColor:          #404040
+
+! Scroll behaviour - dont jump down
+URxvt*scrollTtyOutput: false
+URxvt*scrollWithBuffer: true
+URxvt*scrollTtyKeypress: true
+
+! clicable links browser
+URxvt.matcher.button:   1                                                                                                                                       │ rudi_s
+URxvt.url-launcher: /usr/bin/firefox
+
+! line history
+URxvt.saveLines: 1000000

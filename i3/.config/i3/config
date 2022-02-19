@@ -1,0 +1,247 @@
+
+# Font
+# font pango:Paprika bold 10
+font pango:Iosevka Term Slab bold 11
+
+# non-gaps
+for_window [class=".*"] border normal
+
+# i3-gaps
+# for_window [class=".*"] border pixel 4
+# gaps inner 8 # dont use gaps, user borders...
+# gaps outer 0
+
+# Fullscreen behaviour
+popup_during_fullscreen leave_fullscreen
+
+# Back and forth
+workspace_auto_back_and_forth yes
+
+# Workspace names (icons handled by polybar)
+set $WS1   1
+set $WS2   2
+set $WS3   3
+set $WS4   4
+set $WS5   5
+set $WS6   6
+set $WS7   7
+set $WS8   8
+set $WS9   9
+set $WS10 10
+
+# Workspace assignment
+assign [class="Eclipse.*"] $WS2
+assign [class="Gimp.*"] $WS4
+assign [class="Xsane"] $WS4
+assign [class="Vlc"] $WS7
+# assign [class="Evolution"] $WS8
+assign [class="Gitlab"] $WS8
+assign [class="Pivotal"] $WS8
+assign [class="Slack"] $WS9
+assign [title=".* - Discord"] $WS9
+assign [class="Thunderbird"] $WS9
+assign [class="Signal"] $WS9
+assign [class="Gnome-calendar"] $WS9
+
+# Keys
+floating_modifier Mod4
+set $up k
+set $down j
+set $left h
+set $right l
+set $super Mod4
+set $alt Mod1
+
+# Hardcore Stuff
+bindsym $super+Shift+l exec xscreensaver-command -lock
+bindsym $super+e kill
+bindsym $super+Shift+e reload
+bindsym $super+Shift+r restart
+bindsym $super+Shift+q exec "i3-nagbar -t warning -m 'exit?' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# Focus Hierarchy
+bindsym $super+f focus parent
+bindsym $super+g focus child
+
+# Move Focus
+bindsym $super+h focus left
+bindsym $super+j focus down
+bindsym $super+k focus up
+bindsym $super+l focus right
+
+# Move Containers
+bindsym $super+$alt+h move left
+bindsym $super+$alt+j move down
+bindsym $super+$alt+k move up
+bindsym $super+$alt+l move right
+
+# Move Workspaces
+bindsym $super+$alt+o move workspace to output left
+bindsym $super+$alt+p move workspace to output right
+
+# Layout Change
+bindsym $super+u layout stacking
+bindsym $super+i layout tabbed
+bindsym $super+o layout splith
+bindsym $super+p layout splitv
+
+# Fullscreen and Floating
+bindsym $super+$alt+space floating toggle
+bindsym $super+t fullscreen toggle
+
+# Split
+bindsym $super+n split v
+bindsym $super+m split h
+
+# Scratchpad
+bindsym $super+$alt+n move scratchpad
+bindsym $super+$alt+b scratchpad show
+
+# Move Containers to workspace
+bindsym $super+$alt+1 move container to workspace $WS1
+bindsym $super+$alt+2 move container to workspace $WS2
+bindsym $super+$alt+3 move container to workspace $WS3
+bindsym $super+$alt+4 move container to workspace $WS4
+bindsym $super+$alt+5 move container to workspace $WS5
+bindsym $super+$alt+6 move container to workspace $WS6
+bindsym $super+$alt+7 move container to workspace $WS7
+bindsym $super+$alt+8 move container to workspace $WS8
+bindsym $super+$alt+9 move container to workspace $WS9
+bindsym $super+$alt+0 move container to workspace $WS10
+
+# Switch Workspace
+bindsym $super+1 workspace $WS1
+bindsym $super+2 workspace $WS2
+bindsym $super+3 workspace $WS3
+bindsym $super+4 workspace $WS4
+bindsym $super+5 workspace $WS5
+bindsym $super+6 workspace $WS6
+bindsym $super+7 workspace $WS7
+bindsym $super+8 workspace $WS8
+bindsym $super+9 workspace $WS9
+bindsym $super+0 workspace $WS10
+
+# Resize Mode
+bindsym $super+r mode "resize"
+mode "resize" {
+
+     # Resize
+     bindsym $left   resize shrink width 100 px
+     bindsym $down   resize grow height 100 px
+     bindsym $up resize shrink height 100 px
+     bindsym $right  resize grow width 100 px
+
+     # Exit resize mode
+     bindsym Return mode "default"
+     bindsym Escape mode "default"
+
+}
+
+# Apps to open/hide on keybinding (living in scratchpad)
+bindsym $super+$alt+m exec --no-startup-id ~/bin/keepass
+bindsym $super+semicolon exec --no-startup-id ~/bin/scratchterm
+
+# Apps to open/close on keybinding
+bindsym $super+apostrophe exec --no-startup-id ~/bin/scratchtop
+# bindsym $super+b exec --no-startup-id ~/bin/ocncpamixer
+
+# Floating windows
+# for_window [instance="ncpamixer"] floating enable, move position 640 60, resize set 1280 1280;
+for_window [class="KeePassXC"] floating enable, move position 640 200, resize set 1280 720;
+for_window [instance="scratchterm"] floating enable, move position 280 100, resize set 2000 1200, border none;
+for_window [instance="scratchtop"] floating enable, move position 280 100, resize set 2000 1200, border none;
+for_window [class="Pavucontrol"] floating enable, resize set 920 950
+for_window [class="pavucontrol-qt"] floating enable, resize set 1200 1000
+for_window [class="Xsane"] floating enable
+
+# Default Title
+for_window [class=".*"] title_format \
+" <span size='medium' foreground='#aaaaff' font='DejaVu Sans Mono Bold 12'>#</span>  %title"
+
+# Titles for Terminals
+for_window [class="Alacritty"] title_format \
+" <span size='medium' foreground='#ff00ff' font='DejaVu Sans Mono Bold 12'>T</span>  %title"
+for_window [class="URxvt"] title_format \
+" <span size='medium' foreground='#ff00ff' font='DejaVu Sans Mono Bold 12'>T</span>  %title"
+for_window [class="xst-256color"] title_format \
+" <span size='medium' foreground='#ff00ff' font='DejaVu Sans Mono Bold 12'>T</span>  %title"
+for_window [class="Termite"] title_format \
+" <span size='medium' foreground='#ff00ff' font='DejaVu Sans Mono Bold 12'>T</span>  %title"
+for_window [class="Terminator"] title_format \
+" <span size='medium' foreground='#ff00ff' font='DejaVu Sans Mono Bold 12'>T</span>  %title"
+for_window [class="XTerm"] title_format \
+" <span size='medium' foreground='#ff00ff' font='DejaVu Sans Mono Bold 12'>T</span>  %title"
+
+# temporary
+# TODO: fix irc title on exit
+for_window [title=".*ssh.*irc.*tmux.*weechat.*a.*"] title_format \
+" <span size='medium' foreground='#ff7722' font='DejaVu Sans Mono Bold 12'>I</span>  IRC @ %title"
+for_window [class="glowing-bear"] title_format \
+" <span size='medium' foreground='#ff7722' font='DejaVu Sans Mono Bold 12'>I</span>  %title"
+
+# More Titles
+for_window [class="Chromium"] title_format \
+" <span size='medium' foreground='#88ff88' font='DejaVu Sans Mono Bold 12'>C</span>  %title"
+for_window [class="Google-chrome"] title_format \
+" <span size='medium' foreground='#88ff88' font='DejaVu Sans Mono Bold 12'>G</span>  %title"
+for_window [class="Firefox"] title_format \
+" <span size='medium' foreground='#ff4444' font='DejaVu Sans Mono Bold 12'>F</span>  %title"
+for_window [class="qutebrowser"] title_format \
+" <span size='medium' foreground='#6666ff' font='DejaVu Sans Mono Bold 12'>Q</span>  %title"
+for_window [class="Emacs"] title_format \
+" <span size='medium' foreground='#ffff00' font='DejaVu Sans Mono Bold 12'>E</span>  %title"
+
+# Add some smoothness
+# exec_always --no-startup-id hsetroot -solid "#222222"
+exec_always --no-startup-id feh --bg-fill ~/background
+# exec_always --no-startup-id feh --bg-tile ~/background
+# exec_always --no-startup-id feh --bg-max ~/background
+exec_always --no-startup-id hsetroot -solid "#282828"
+exec_always --no-startup-id picom -b
+exec_always --no-startup-id restart-polybar
+
+# TODO: what does this do?
+# exec --no-startup-id /usr/lib/polkit-kde-authentication-agent-1
+
+###############################################################################
+# colors from Xresources (and fallback colors)
+###############################################################################
+
+set_from_resource $bg color0 #000000
+set_from_resource $darkgray color18 #333333
+
+set_from_resource $gray color7 #ffffff
+set_from_resource $lightgray color15 #ffffff
+set_from_resource $red color1 #ff00000
+set_from_resource $yellow color3 #ffff000
+set_from_resource $greenish color2 #ff00000
+set_from_resource $green color6 #ff00000
+set_from_resource $cyan color4 #0000ff
+set_from_resource $orange color17 ##ffa500
+
+# my gruvbox variant
+# class                 border|backgr|text|indicator|child_border
+# client.focused          $darkgray $darkgray $yellow $yellow $darkgray
+# client.focused_inactive $darkgray $darkgray $lightgray $bg $darkgray
+# client.unfocused        $darkgray $bg $gray $bg $darkgray
+# client.urgent           $darkgray $red $white $bg $red
+
+# my gruvbox variant 2 (blue)
+client.focused          $darkgray $cyan $bg $orange $darkgray
+client.focused_inactive $darkgray $darkgray $lightgray $bg $darkgray
+client.unfocused        $darkgray $bg $gray $bg $darkgray
+client.urgent           $darkgray $red $white $bg $red
+
+
+###############################################################################
+# Void
+# void primary #478061
+# void secondary #abc2ab
+###############################################################################
+
+# class                 border  backgr. text    indicator child_border
+# void-green
+# client.focused          #202020 #478061 #ffffff #ff8700   #478061
+# client.focused_inactive #202020 #404040 #eeeeee #ff8700   #303030
+# client.unfocused        #202020 #303030 #eeeeee #ff8700   #303030
+# client.urgent           #202020 #CE4045 #eeeeee #ff8700   #303030

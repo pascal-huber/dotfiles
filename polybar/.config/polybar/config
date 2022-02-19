@@ -1,0 +1,646 @@
+;=====================================================
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/jaagr/polybar
+;
+;   The README contains alot of information
+;
+;=====================================================
+
+
+; some backup symbols from nerd fonts
+
+;                     ﯑  ﮄ    
+
+;                       
+;     
+;      ﳀ      
+;        ﴨ         
+; some symbols with weired behavior in emacs (wtf?!, emacs bug?)
+;  ﲲ ﲱ ﲰ ﳇ ﳝ ﳞ
+
+; matrix: ﬧ
+; (invisible) pine tree: 滑
+; (invisible) play small: 契
+
+;#####################################################################
+; Colors
+;    partially created with http://paletton.com
+;#####################################################################
+
+; [colors]
+; warn = #f78700
+; ; background = #66202020
+; background = #ff202020
+; ; background = #202020
+; foreground = #ddd
+; neparator = #454545
+; network = #e6e6e6
+; resources = #e6e6e6
+; updates = #e6e6e6
+; datetime = #e6e6e6
+; battery = #e6e6e6
+
+; i3-visible-background = self.background
+; i3-visible-foreground = #eee
+; i3-visible-underline = #eee
+
+; i3-focused-background = self.background
+; i3-focused-foreground = #cccc00
+; i3-focused-underline = #bbbb00
+; ;f78700
+
+; i3-unfocused-background = self.background
+; i3-unfocused-foreground = #777
+; i3-unfocused-underline = #444
+
+; i3-urgent-background = self.background
+; i3-urgent-foreground = #844
+; i3-urgent-underline = #633
+
+
+;#####################################################################
+; Colors from Xresources
+;#####################################################################
+
+[colors]
+background = ${xrdb:color0}
+foreground = ${xrdb:color7}
+separator = ${xrdb:color8}
+network = self.foreground
+resources = self.foreground
+updates = self.foreground
+datetime = self.foreground
+battery = self.foreground
+
+i3-visible-background = self.background
+i3-visible-foreground = #eee
+i3-visible-underline = #eee
+
+i3-focused-background = self.background
+i3-focused-foreground = ${xrdb:color3}
+i3-focused-underline = ${xrdb:color3}
+
+i3-unfocused-background = self.background
+i3-unfocused-foreground = ${xrdb:color20}
+i3-unfocused-underline = ${xrdb:color20}
+
+i3-urgent-background = self.background
+i3-urgent-foreground = ${xrdb:color17}
+i3-urgent-underline = ${xrdb:color17}
+
+;; -----------------------
+;; light colors
+;; -----------------------
+
+; [colors]
+
+; warn = #f78700
+; background = #ffbbbbbb
+; foreground = #333
+; separator = #454545
+
+; network = #333
+; resources = #333
+; updates = #333
+; datetime = #333
+; battery = #333
+
+; ;# void primary #478061
+; ;# void secondary #abc2ab
+
+; i3-visible-background = self.background
+; i3-visible-foreground = #eee
+; i3-visible-underline = #eee
+
+; i3-focused-background = self.background
+; i3-focused-foreground = #478061
+; i3-focused-underline = #bbbb00
+; ;f78700
+
+; i3-unfocused-background = self.background
+; i3-unfocused-foreground = #666
+; i3-unfocused-underline = #444
+
+; i3-urgent-background = self.background
+; i3-urgent-foreground = #f44
+; i3-urgent-underline = #633
+
+;#####################################################################
+; Bar setup
+;#####################################################################
+
+[barsettings]
+height = 30
+separator = " "
+
+[bar/secondary]
+monitor = ${env:MONITOR:}
+height = ${barsettings.height}
+bottom = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+modules-center = i3
+separator = ${barsettings.separator}
+padding-left = 0
+padding-right = 0
+module-margin-left = 0
+module-margin-right = 1
+line-size = 0
+fixed-center = true
+
+
+; T1: Text
+; font-0 = Paprika:pixelsize=12:weight=bold;4
+; font-0 = Paprika:pixelsize=12:weight=bold;4
+font-0 = Fira Code:pixelsize=13:weight=bold;4
+
+; T2: large icons
+font-1 = DejaVuSansMono Nerd Font:pixelsize=12:weight=bold;3
+
+; T3: regula icons ?
+font-2 = DejaVuSansMono Nerd Font:pixelsize=13:weight=bold;3
+
+; T4: small icons
+font-3 = DejaVuSansMono Nerd Font:pixelsize=14:weight=bold;3
+
+; T5: i3 custom icons fonts
+font-4 = DejaVuSansMono Nerd Font:weight=bold:pixelsize=18;4
+
+; emacs icon
+font-5 = file\-icons:pixelsize=13;4
+
+; T7: very small icons
+font-6 = DejaVuSansMono Nerd Font:pixelsize=16:weight=bold;4
+
+; T8 superscript
+font-7 = DejaVuSansMono Nerd Font:pixelsize=10;4
+
+; T9 subscript
+font-8 = Paprika:pixelsize=10:weight=bold;4
+
+; linux icons
+font-9 = font\-logos:pixelsize=14;3
+
+[bar/primary]
+monitor = ${env:MONITOR:}
+height = ${barsettings.height}
+bottom = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+separator = " "
+padding-left = 0
+padding-right = 0
+module-margin-left = 0
+module-margin-right = 0
+line-size = 0
+fixed-center = true
+border-size = 0
+tray-detached = false
+
+; T1: Text
+; font-0 = Paprika:pixelsize=12:weight=bold;4
+; font-0 = Paprika:pixelsize=12:weight=bold;4
+font-0 = Iosevka Term Slab:pixelsize=15:weight=bold;4
+
+; T2: large icons
+font-1 = DejaVuSansMono Nerd Font:pixelsize=12:weight=bold;3
+
+; T3: regula icons ?
+font-2 = DejaVuSansMono Nerd Font:pixelsize=13:weight=bold;3
+
+; T4: small icons
+font-3 = DejaVuSansMono Nerd Font:pixelsize=14:weight=bold;3
+
+; T5: i3 custom icons fonts
+font-4 = DejaVuSansMono Nerd Font:weight=bold:pixelsize=18;4
+
+; emacs icon
+font-5 = file\-icons:pixelsize=13;4
+
+; T7: very small icons
+font-6 = DejaVuSansMono Nerd Font:pixelsize=16:weight=bold;4
+
+; T8 superscript
+; font-7 = DejaVuSansMono Nerd Font:pixelsize=8:weight=bold;-2
+font-7 = Iosevka Term Slab:pixelsize=10:weight=bold;-2
+
+; T9 subscript
+font-8 = Paprika:pixelsize=10:weight=bold;4
+
+; linux icons
+font-9 = font\-logos:pixelsize=14;3
+
+
+modules-left = i3
+modules-right = my-memory my-zfs filesystem s backlight pulseaudio s wlan s my-cloud-backup my-void-updates my-flatpak-updates s my-email s my-date e my-time s
+
+; System Tray
+tray-position = right
+;tray-transparent = true
+tray-background = ${colors.background}
+tray-padding = 4
+; tray-detach = true
+
+;#####################################################################
+; Settings
+;#####################################################################
+
+[settings]
+
+[global/wm]
+
+
+;#####################################################################
+; i3
+;#####################################################################
+
+[module/i3]
+label-active-font = 5
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+
+; if true, only show workspaces on current screen
+; set false for clonig screen ???
+pin-workspaces = true
+
+label-mode = resize
+label-mode-padding = 2
+label-mode-foreground = ${colors.foreground}
+label-mode-background = ${colors.background}
+
+; visible (e.g. secondary screen)
+label-visible = %icon%
+label-visilbe-background = ${colors.i3-visible-background}
+label-visible-foreground = ${colors.i3-visible-foreground}
+label-visible-underline = ${colors.i3-visible-underline}
+label-visible-padding = 2
+
+; focused = Active workspace on focused monitor
+label-focused = %icon%
+label-focused-background = ${colors.i3-focused-background}
+label-focused-foreground = ${colors.i3-focused-foreground}
+label-focused-underline = ${colors.i3-focused-underline}
+label-focused-padding = 2
+
+; unfocused = Inactive workspace on any monitor
+label-unfocused = %icon%
+label-unfocused-background = ${colors.i3-unfocused-background}
+label-unfocused-foreground = ${colors.i3-unfocused-foreground}
+label-unfocused-underline = ${colors.i3-unfocused-underline}
+label-unfocused-padding = 2
+
+; urgent = Workspace with urgency hint set
+label-urgent = %icon%
+label-urgent-background = ${colors.i3-urgent-background}
+label-urgent-foreground = ${colors.i3-urgent-foreground}
+label-urgent-underline = ${colors.i3-urgent-underline}
+label-urgent-padding = 2
+
+ws-icon-1 =  1;%{T5}%{T-}
+ws-icon-2 =  2;%{T5}%{T-}
+ws-icon-3 =  3;%{T5}﯑%{T-}
+ws-icon-4 =  4;%{T5}%{T-}
+ws-icon-5 =  5;%{T5}%{T-}
+ws-icon-6 =  6;%{T5}%{T-}
+ws-icon-7 =  7;%{T5}%{T-}
+ws-icon-8 =  8;%{T5}%{T-}
+ws-icon-9 =  9;%{T5}%{T-}
+ws-icon-0 =  10;%{T5}%{T-}
+
+; ws-icon-1 =  1;%{T5}α%{T-}
+; ws-icon-2 =  2;%{T5}β%{T-}
+; ws-icon-3 =  3;%{T5}γ%{T-}
+; ws-icon-4 =  4;%{T5}δ%{T-}
+; ws-icon-5 =  5;%{T5}ε%{T-}
+; ws-icon-6 =  6;%{T5}ζ%{T-}
+; ws-icon-7 =  7;%{T5}η%{T-}
+; ws-icon-8 =  8;%{T5}θ%{T-}
+; ws-icon-9 =  9;%{T5}ι%{T-}
+; ws-icon-0 =  10;%{T5}κ%{T-}
+
+
+;#####################################################################
+; Blank
+;#####################################################################
+
+[module/e]
+type = custom/text
+content = " "
+
+;#####################################################################
+; Separator
+;#####################################################################
+
+[module/s]
+type = custom/text
+content = " | "
+content-foreground = ${colors.separator}
+
+[module/wireless-network]
+type = internal/network
+; interface = enp0s20f0u1u1
+interface = wlp4s0
+
+[module/wlan]
+
+type = internal/network
+interface = wlp4s0
+interval = 3.0
+
+format-connected = <ramp-signal> <label-connected>
+format-disconnected =
+
+format-connected-prefix-foreground = ${colors.network}
+format-connected-prefix = "%{A3:nm-connection-editor&:}%{A1:nmcli device wifi rescan & urxvt -e nmtui-connect&:}%{T4}%{T-} "
+format-connected-suffix = "%{A}%{A}"
+
+label-connected = %essid%
+label-connected-foreground = ${colors.network}
+
+ramp-signal-0 =
+ramp-signal-1 =
+ramp-signal-2 =
+ramp-signal-3 =
+ramp-signal-4 =
+ramp-signal-foreground = ${colors.network}
+
+;#####################################################################
+; Bluetooth
+;#####################################################################
+
+[module/my-bluetooth]
+type = custom/script
+exec = ~/bin/bluetooth-status
+interval = 10
+label-font = 1
+format-prefix = " %{T3}%{T-} "
+format-prefix-foreground = ${colors.network}
+format-foreground = ${colors.network}
+
+;#####################################################################
+; Filesystem
+;#####################################################################
+
+[module/filesystem]
+type = internal/fs
+interval = 60
+mount-0 = /
+label-mounted = %free%
+
+format-mounted-prefix = " %{T2}%{T-} "
+format-mounted-foreground = ${colors.resources}
+
+;#####################################################################
+; Temperature
+;#####################################################################
+
+[module/my-temperature]
+type = custom/script
+exec = ~/.config/polybar/temp.sh
+interval = 3
+
+format-prefix = "%{A1:urxvt -e htop&:}%{A3:urxvt -e s-tui&:} %{T3}%{T-} "
+format-suffix= "%{A}%{A}"
+
+format-prefix-foreground = ${colors.resources}
+format-foreground = ${colors.resources}
+
+;#####################################################################
+; Frequency (cpupower)
+;#####################################################################
+
+[module/my-frequency]
+type = custom/script
+exec = ~/.config/polybar/cpupower.sh
+interval = 20
+
+format-prefix = "%{A1:urxvt -e htop&:}%{A3:urxvt -e s-tui&:} %{T3}%{T-} "
+format-suffix= "%{A}%{A}"
+
+format-prefix-foreground = ${colors.resources}
+format-foreground = ${colors.resources}
+
+;#####################################################################
+; Memory
+;#####################################################################
+
+[module/my-memory]
+type = custom/script
+exec = free | grep Mem | awk '{printf("%.1f GB\n", $7 / 1048576)}'
+format =  <label>
+interval = 5
+format-foreground = ${colors.resources}
+format-prefix = " %{T7}%{T-} "
+;  
+format-prefix-foreground = ${colors.resources}
+label-layout = %layout%
+
+[module/my-zfs]
+type = custom/script
+exec = awk '/^size/ { printf("%.1f GB\n", $3 / 1073741824) }' < /proc/spl/kstat/zfs/arcstats
+format =  <label>
+interval = 5
+format-foreground = ${colors.resources}
+format-prefix = " %{T7}%{T-} "
+;      ﲜ 
+format-prefix-foreground = ${colors.resources}
+label-layout = %layout%
+
+
+;#####################################################################
+; System Updates
+;#####################################################################
+
+[module/my-cloud-backup]
+type = custom/script
+exec = ~/.config/polybar/backup-cloud-b2.sh
+interval = 300
+format = <label>
+format-foreground = ${colors.updates}
+format-prefix = "%{T10}%{T-} "
+format-prefix-foreground = ${colors.updates}
+label-layout = %layout%
+
+[module/my-void-updates]
+type = custom/script
+exec = ~/.config/polybar/void_updates.sh
+interval = 300
+format = <label>
+format-foreground = ${colors.updates}
+format-prefix = "%{T10}%{T-} "
+format-prefix-foreground = ${colors.updates}
+label-layout = %layout%
+
+[module/my-flatpak-updates]
+type = custom/script
+; exec = "flatpak remote-ls --updates | grep -v '^Name' | wc -l"
+exec = ~/.config/polybar/flatpak_updates.sh
+interval = 300
+format =  <label>
+format-foreground = ${colors.updates}
+; TODO: find flatpak icon instead of a flathub one.
+format-prefix = "%{T10}%{T-} "
+format-prefix-foreground = ${colors.updates}
+label-layout = %layout%
+
+[module/arch-update]
+type = custom/script
+exec = ~/.config/polybar/arch_updates.sh
+interval = 60
+format =  <label>
+format-foreground = ${colors.updates}
+format-prefix = " %{T4}%{T-} "
+format-prefix-foreground = ${colors.updates}
+
+label-layout = %layout%
+
+;#####################################################################
+; Emacs
+;#####################################################################
+
+[module/my-emacs]
+type = custom/script
+exec = emacsclient -e '(ph/update-intervals-since-last-update)' 2> /dev/null || echo "?"
+interval = 600
+
+format =  <label>
+format-foreground = ${colors.updates}
+format-prefix = "%{T6}%{T-} "
+format-prefix-foreground = ${colors.updates}
+
+label-layout = %layout%
+
+
+;#####################################################################
+; Unread Emails
+;#####################################################################
+;
+
+[module/my-email]
+type = custom/script
+exec = ~/.config/polybar/mail.sh
+interval = 1
+
+format =  <label>
+format-foreground = ${colors.updates}
+format-prefix = "%{T2}%{T-} "
+format-prefix-foreground = ${colors.updates}
+
+label-layout = %layout%
+
+;#####################################################################
+; Date
+;#####################################################################
+
+[module/my-date]
+type = custom/script
+exec = date '+%a %-e %b'
+interval = 20
+
+format =  <label>
+format-foreground = ${colors.datetime}
+format-prefix = "%{T2}%{T-} "
+format-prefix-foreground = ${colors.datetime}
+label-layout = %layout%
+
+click-left = gsimplecal&
+click-right = gnome-calendar&
+
+;#####################################################################
+; Time
+;#####################################################################
+
+[module/my-time]
+type = custom/script
+exec = date '+%H:%M'
+interval = 5
+
+format =  <label>
+format-foreground = ${colors.datetime}
+format-prefix = "%{T4}%{T-} "
+format-prefix-foreground = ${colors.datetime}
+
+;#####################################################################
+; Battery
+;#####################################################################
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 100
+
+time-format = %H:%M
+
+; Full
+
+; Charging
+format-charging-prefix = "%{T2}%{T-}  "
+format-charging = <ramp-capacity> <label-charging>
+format-charging-foreground = ${colors.battery}
+
+; Discharging
+format-discharging-prefix = "%{T3}%{T-}  "
+format-discharging = <ramp-capacity> <label-discharging>
+format-discharging-foreground = ${colors.battery}
+;format-discharging-underline = ${self.format-charging-underline}
+
+; Full
+format-full-prefix = "%{T2}%{T-} "
+format-full-prefix-foreground = ${colors.battery}
+format-full-foreground = ${colors.battery}
+
+; Capacity
+ramp-capacity-0 = %{F#f00}%{T2}%{T-}
+ramp-capacity-1 = %{T2}%{T-}
+ramp-capacity-2 = %{T2}%{T-}
+ramp-capacity-3 = %{T2}%{T-}
+ramp-capacity-4 = %{T2}%{T-}
+
+;#####################################################################
+; Sound
+;#####################################################################
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+; Sink to be used, if it exists (find using `pacmd list-sinks`, name field)
+; If not, uses default sink
+; sink = alsa_output.pci-0000_00_1f.3.analog-stereo
+
+use-ui-max = false
+interval = 1
+
+format-volume = <ramp-volume> <label-volume>
+;format-muted = <label-muted>
+
+label-volume = %percentage%%
+label-muted = "%{T7}婢%{T-}"
+
+; Only applies if <ramp-volume> is used
+ramp-volume-0 = "%{T7}奄%{T-}"
+ramp-volume-1 = "%{T7}奔%{T-}"
+ramp-volume-2 = "%{T7}墳%{T-}"
+
+;#####################################################################
+; Backlight
+;#####################################################################
+
+[module/backlight]
+type = internal/xbacklight
+
+; XRandR output to get get values from
+; Default: the monitor defined for the running bar
+output = eDP1
+
+format = <ramp> <label>
+label = %percentage%%
+
+ramp-0 = 
+ramp-1 = 
+ramp-2 = 
+ramp-3 = 
+ramp-4 = 

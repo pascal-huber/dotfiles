@@ -182,9 +182,9 @@ for_window [class="glowing-bear"] title_format \
 # More Titles
 for_window [class="Chromium"] title_format \
 " <span size='medium' foreground='#88ff88' font='DejaVu Sans Mono Bold 12'>C</span>  %title"
-for_window [class="Google-chrome"] title_format \
-" <span size='medium' foreground='#88ff88' font='DejaVu Sans Mono Bold 12'>G</span>  %title"
-for_window [class="Firefox"] title_format \
+for_window [class="Brave-browser"] title_format \
+" <span size='medium' foreground='#eebb44' font='DejaVu Sans Mono Bold 12'>B</span>  %title"
+for_window [title="Mozilla Firefox"] title_format \
 " <span size='medium' foreground='#ff4444' font='DejaVu Sans Mono Bold 12'>F</span>  %title"
 for_window [class="qutebrowser"] title_format \
 " <span size='medium' foreground='#6666ff' font='DejaVu Sans Mono Bold 12'>Q</span>  %title"

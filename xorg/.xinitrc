@@ -20,7 +20,7 @@ eval $(/usr/bin/gnome-keyring-daemon --start | string split "=")
 export SSH_AUTH_SOCK
 
 # SSH Agent
-# eval $(ssh-agent)
+eval $(ssh-agent)
 
 # Set keyboard layout
 setxkbmap -layout us -variant altgr-intl
@@ -31,8 +31,7 @@ update-desktop-database $HOME/.local/share/applications
 # Settings
 # setxkbmap -layout us -variant altgr-intl &
 xbindkeys &
-xrdb ~/.Xdefaults &&
-xrdb -merge ~/.Xresources-colors-dark &
+(xrdb ~/.Xdefaults && xrdb -merge ~/.Xresources-colors-dark) &
 
 # Display settings
 number_of_screens="`xrandr -q | grep ' connected' | wc -l`"
@@ -62,7 +61,7 @@ sleep 8 && nextcloud &
 # Start Window Manager
 ttyPath=$(tty)
 case $ttyPath in
-  *3*     )   exec dwm;;
+  *3*     )   exec herbstluftwm;;
   *4*     )   exec start-lumina-desktop;;
   *5*     )   exec startxfce4;;
   *       )   exec i3;;

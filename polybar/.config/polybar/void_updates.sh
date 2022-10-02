@@ -25,6 +25,14 @@ if (( $(xbps-query -O | wc -l) > 0 )); then
   power_symbol="${power_symbol}o"
 fi
 
+# private templates
+UPDATE_LOG_FILE="https://raw.githubusercontent.com/pascal-huber/void-templates/gh-pages/updates.txt"
+update_log_size=$(curl --head $UPDATE_LOG_FILE 2>/dev/null | grep content-length | awk '{print $2}' | tr -dc '[:alnum:]')
+if [ "$update_log_size" != "0" ]; then
+  power_symbol="${power_symbol}T"
+fi
+
+
 # manually installed
 # TODO: fix update-check for manually installed packages
 #       it currently only works when connected to the internet

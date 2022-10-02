@@ -156,25 +156,25 @@ fixed-center = true
 font-0 = Fira Code:pixelsize=13:weight=bold;4
 
 ; T2: large icons
-font-1 = DejaVuSansMono Nerd Font:pixelsize=12:weight=bold;3
+font-1 = Iosevka Term Slab Nerd Font:pixelsize=12:weight=bold;3
 
 ; T3: regula icons ?
-font-2 = DejaVuSansMono Nerd Font:pixelsize=13:weight=bold;3
+font-2 = Iosevka Term Slab Nerd Font:pixelsize=13:weight=bold;3
 
 ; T4: small icons
-font-3 = DejaVuSansMono Nerd Font:pixelsize=14:weight=bold;3
+font-3 = Iosevka Term Slab Nerd Font:pixelsize=14:weight=bold;3
 
 ; T5: i3 custom icons fonts
-font-4 = DejaVuSansMono Nerd Font:weight=bold:pixelsize=18;4
+font-4 = Iosevka Term Slab Nerd Font:weight=bold:pixelsize=18;4
 
 ; emacs icon
 font-5 = file\-icons:pixelsize=13;4
 
 ; T7: very small icons
-font-6 = DejaVuSansMono Nerd Font:pixelsize=16:weight=bold;4
+font-6 = Iosevka Term Slab Nerd Font:pixelsize=16:weight=bold;4
 
 ; T8 superscript
-font-7 = DejaVuSansMono Nerd Font:pixelsize=10;4
+font-7 = Iosevka Term Slab Nerd Font:pixelsize=10;4
 
 ; T9 subscript
 font-8 = Paprika:pixelsize=10:weight=bold;4
@@ -184,6 +184,7 @@ font-9 = font\-logos:pixelsize=14;3
 
 [bar/primary]
 monitor = ${env:MONITOR:}
+enable-ipc = true
 height = ${barsettings.height}
 bottom = true
 background = ${colors.background}
@@ -232,8 +233,9 @@ font-8 = Paprika:pixelsize=10:weight=bold;4
 font-9 = font\-logos:pixelsize=14;3
 
 
+; CPU USAGE modules-left = hlwm_tag i3  hlwm-monitor0 s info-hlwm-workspaces
 modules-left = i3
-modules-right = my-memory my-zfs filesystem s backlight pulseaudio s wlan s my-cloud-backup my-void-updates my-flatpak-updates s my-email s my-date e my-time s
+modules-right = my-memory my-zfs filesystem s backlight pulseaudio s ipc-dunst s wlan s my-cloud-backup my-void-updates my-flatpak-updates s my-email s my-date e my-time s
 
 ; System Tray
 tray-position = right
@@ -250,6 +252,38 @@ tray-padding = 4
 
 [global/wm]
 
+;#####################################################################
+; Dunst
+; source: https://github.com/sagotsky/.dotfiles/blob/master/config/polybar/config
+;#####################################################################
+[module/ipc-dunst]
+type = custom/ipc
+initial = 1
+hook-0 = echo "%{A1:dunstctl set-paused true && polybar-msg hook ipc-dunst 2:}%{T4}%{A}" &
+hook-1 = echo "%{A1:dunstctl set-paused false && polybar-msg hook ipc-dunst 1:}%{F#ff2200}%{T3}%{F-}%{A}" &
+; TODO: detect changes with dunstctl
+
+;#####################################################################
+; Herbstluft
+;#####################################################################
+
+[module/info-hlwm-workspaces]
+type = custom/script
+exec = ~/.config/polybar/info-hlwm-workspaces.sh
+tail = true
+scroll-up = herbstclient use_index -1 --skip-visible &
+scroll-down = herbstclient use_index +1 --skip-visible &
+
+[module/hlwm_tag]
+type = custom/text
+content = ${env:HLWM_TAG}
+
+[module/hlwm-monitor0]
+type = custom/script
+exec = ~/.config/polybar/hlwm-monitor0.sh
+tail = true
+scroll-up = herbstclient use_index -1 --skip-visible &
+scroll-down = herbstclient use_index +1 --skip-visible &
 
 ;#####################################################################
 ; i3

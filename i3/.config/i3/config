@@ -65,15 +65,23 @@ bindsym $super+g focus child
 
 # Move Focus
 bindsym $super+h focus left
+bindsym $super+Left focus left
 bindsym $super+j focus down
+bindsym $super+Down focus down
 bindsym $super+k focus up
+bindsym $super+Up focus up
 bindsym $super+l focus right
+bindsym $super+Right focus right
 
 # Move Containers
 bindsym $super+$alt+h move left
+bindsym $super+$alt+Left move left
 bindsym $super+$alt+j move down
+bindsym $super+$alt+Down move down
 bindsym $super+$alt+k move up
+bindsym $super+$alt+Up move up
 bindsym $super+$alt+l move right
+bindsym $super+$alt+Right move right
 
 # Move Workspaces
 bindsym $super+$alt+o move workspace to output left

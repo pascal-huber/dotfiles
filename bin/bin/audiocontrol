@@ -1,0 +1,19 @@
+#!/bin/bash
+
+visible=$(xdotool search --all --onlyvisible --classname Pavucontrol | wc -l)
+all=$(xdotool search --all --classname Pavucontrol | wc -l)
+echo "$visible $all"
+
+if [ $all != 0 ]; then
+    if [ $all = $visible ]; then
+        # hide window
+        echo "hide"
+        i3-msg "[class=pavucontrol] move scratchpad"
+    else
+        # open/show window
+        echo "show"
+        i3-msg "[class=pavucontrol] scratchpad show"
+    fi
+else
+    pavucontrol &
+fi

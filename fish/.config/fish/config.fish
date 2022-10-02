@@ -4,14 +4,19 @@ set -gx XDG_CONFIG_HOME $HOME/.config
 set -gx XDG_DATA_HOME $HOME/.local/share
 set -gx --path XDG_DATA_DIRS $XDG_DATA_HOME/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share:/usr/share
 
+set -gx CARGO_HOME $HOME/.cargo
+
 # don't install plugins here but in a seperate folder
 set -gx fisher_path $XDG_DATA_HOME/fisher
 
 # PATH
+# FIXME: there's got to be a better way to handle paths in fish
+set -U fish_user_paths
 fish_add_path -p $HOME/git/rofi-find-files
 fish_add_path -p $HOME/bin
 fish_add_path -a $HOME/adb-fastboot/platform-tools
-fish_add_path -a '/opt/texlive/2021/bin/x86_64-linux'
+fish_add_path -a '/opt/texlive/2022/bin/x86_64-linux'
+fish_add_path $HOME/.cargo/bin
 
 # start xorg
 if status --is-login

@@ -29,6 +29,5 @@ if not set -q fish_initialized
 
     # Most recent file interactions
     alias ol='fish-open-last'
-    alias ol='fish-move-last'
 
 end

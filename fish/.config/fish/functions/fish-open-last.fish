@@ -8,7 +8,7 @@ complete -c fish-open-last \
 
 function fish-open-last --description 'Open most recent thing'
     if test (count $argv) = 0;
-        set last (ls -ct | head -n 1)
+        set last (ls -c | head -n 1)
         if test -d $last;
             cd $last
         else

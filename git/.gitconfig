@@ -1,0 +1,20 @@
+[user]
+	email = pascal.huber@resolved.ch
+	name = Pascal Huber
+	signingkey = 54415487B3BC3474
+[commit]
+    gpgsign = false
+[gpg]
+	program = gpg2
+[core]
+	excludesfile = ~/.gitignore_global
+	excludefile = /home/pascal/.gitignore_global
+	whitespace = cr-at-eol
+	editor = emacsclient
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[init]
+	defaultBranch = master

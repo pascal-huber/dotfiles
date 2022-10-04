@@ -14,6 +14,7 @@ set -gx fisher_path $XDG_DATA_HOME/fisher
 set -U fish_user_paths
 fish_add_path -p $HOME/git/rofi-find-files
 fish_add_path -p $HOME/bin
+fish_add_path -p $HOME/.local/bin
 fish_add_path -a $HOME/adb-fastboot/platform-tools
 fish_add_path -a '/opt/texlive/2022/bin/x86_64-linux'
 fish_add_path $HOME/.cargo/bin

@@ -1,0 +1,54 @@
+#!/bin/bash
+# patch nerd-fonts on a ttf file or a directory with ttf files and store the
+# patched fonts in $2 or "~/.fonts/patched/"
+
+input="$1"
+output_dir=${2:-"~/.fonts/patched/"}
+
+if ! test -r ~/git/nerd-fonts/font-patcher; then
+    echo "Couldn't find nerd-fonts in ~/git/nerd-fonts/font-patcher";
+    exit 1
+fi
+if ! command -v fontforge4; then
+    echo "Couldn't find fontforge";
+    exit 1
+fi
+mkdir -p "$output_dir" || exit 1
+
+patch(){
+    echo "patching $1"
+    fontforge -quiet -script ~/git/nerd-fonts/font-patcher "$ttf" \
+        --shutup \
+        --mono \
+        --complete \
+        --extension ttf \
+        --outputdir "$output_dir"
+}
+
+if test -d "$input"; then
+    echo "dir"
+    for ttf in ${input}/*.ttf; do
+        patch "$ttf"
+    done
+elif test -r "$input"; then
+    echo "file"
+    patch "$input"
+fi
+
+echo "updating fc-cache"
+fc-cache -rf
+
+# some other args
+    # --careful \
+    # --complete \
+    # --powersymbols \
+    # --fontlogos \
+    # --pomicons \
+    # --material \
+    # --powerlineextra \
+    #
+        # --powerline\
+        # --powerlineextra \
+        # --fontlogos \
+        # --fontawesome \
+        # --fontawesomeextension \

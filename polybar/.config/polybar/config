@@ -77,8 +77,8 @@ i3-visible-background = self.background
 i3-visible-foreground = #eee
 i3-visible-underline = #eee
 
-i3-focused-background = self.background
-i3-focused-foreground = ${xrdb:color3}
+i3-focused-background = ${xrdb:URxvt.foreground}
+i3-focused-foreground = ${xrdb:URxvt.background}
 i3-focused-underline = ${xrdb:color3}
 
 i3-unfocused-background = self.background
@@ -152,8 +152,8 @@ fixed-center = true
 
 ; T1: Text
 ; font-0 = Paprika:pixelsize=12:weight=bold;4
-; font-0 = Paprika:pixelsize=12:weight=bold;4
-font-0 = Fira Code:pixelsize=13:weight=bold;4
+font-0 = Paprika:pixelsize=12:weight=bold;4
+; font-0 = Fira Code:pixelsize=13:weight=bold;4
 
 ; T2: large icons
 font-1 = Iosevka Term Slab Nerd Font:pixelsize=12:weight=bold;3
@@ -235,7 +235,7 @@ font-9 = font\-logos:pixelsize=14;3
 
 ; CPU USAGE modules-left = hlwm_tag i3  hlwm-monitor0 s info-hlwm-workspaces
 modules-left = i3
-modules-right = my-memory my-zfs filesystem s backlight pulseaudio s ipc-dunst s wlan s my-cloud-backup my-void-updates my-flatpak-updates s my-email s my-date e my-time s
+modules-right = my-memory my-zfs filesystem s backlight pulseaudio s ipc-dunst s wlan s my-cloud-backup my-void-updates my-flatpak-updates s my-document-inbox s my-email s my-date e my-time s
 
 ; System Tray
 tray-position = right
@@ -547,6 +547,18 @@ format-prefix-foreground = ${colors.updates}
 
 label-layout = %layout%
 
+;#####################################################################
+; Document inbox
+;#####################################################################
+
+[module/my-document-inbox]
+type = custom/script
+exec = ls ~/cloud/personal-documents/inbox/ | wc -l
+interval = 60
+label-font = 1
+format-prefix = "%{T2}%{T-} "
+format-prefix-foreground = ${colors.network}
+format-foreground = ${colors.network}
 
 ;#####################################################################
 ; Unread Emails

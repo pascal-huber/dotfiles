@@ -1,0 +1,30 @@
+
+# back and forth
+workspace_auto_back_and_forth yes
+
+# Workspace names
+set $WS1   1
+set $WS2   2
+set $WS3   3
+set $WS4   4
+set $WS5   5
+set $WS6   6
+set $WS7   7
+set $WS8   8
+set $WS9   9
+set $WS10 10
+
+
+# Workspace assignment
+assign [class="Eclipse.*"] $WS2
+assign [class="Gimp.*"] $WS4
+assign [class="Xsane"] $WS4
+assign [class="Vlc"] $WS7
+# assign [class="Evolution"] $WS8
+assign [class="Gitlab"] $WS8
+assign [class="Pivotal"] $WS8
+assign [class="Slack"] $WS9
+assign [title=".* - Discord"] $WS9
+# assign [class="Thunderbird"] $WS9
+assign [class="Signal"] $WS9
+assign [class="Gnome-calendar"] $WS9

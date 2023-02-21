@@ -1,0 +1,28 @@
+
+# Font
+font pango:Iosevka Term Slab bold 14
+
+# Cursor
+seat seat0 xcursor_theme Bibata-Original-Amber 40
+
+# keyboard laybout
+input * {
+    xkb_layout us
+    xkb_variant altgr-intl
+}
+
+# disable caps-lock on laptop-keyboard
+input 1:1:AT_Translated_Set_2_keyboard {
+  xkb_options ctrl:nocaps
+}
+
+# Fullscreen behaviour
+popup_during_fullscreen leave_fullscreen
+
+# config
+include windows
+include workspaces
+include key_bindings
+include window_title
+include autostart
+include theme

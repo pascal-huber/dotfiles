@@ -1,0 +1,136 @@
+
+# Keys
+floating_modifier Mod4
+set $up k
+set $down j
+set $left h
+set $right l
+set $super Mod4
+set $alt Mod1
+
+# applications
+bindsym $super+Return exec urxvt
+bindsym $super+x exec brave-browser-stable
+bindsym $super+v exec emacsclient -nc
+bindsym $super+c exec firefox
+bindsym $super+b exec sway-pavucontrol
+bindsym $super+$alt+m exec sway-keepassxc
+
+# FIXME: rofi/rofi-wayland doesn't show flatpaks unless run with 'bash -c'
+#   even though $XDG_DATA_DIRS is set
+# bindsym $super+space exec notify-send "$XDG_DATA_DIRS"
+bindsym $super+space exec bash -c "rofi-wayland -show combi -modi combi -combi-modi run,drun -sort true -levenshtein-sort"
+# bindsym $super+space exec wofi --show drun -i -I
+
+# TODO: package the wayland for of rofi https://github.com/lbonn/rofi
+bindsym $super+comma exec rofi-wayland -show window
+
+
+# media buttons
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +1%
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -1%
+bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle
+#bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+#bindsym XF86MonBrightnessUp exec brightnessctl set 5%+
+#bindsym XF86AudioPlay exec playerctl play-pause
+#bindsym XF86AudioNext exec playerctl next
+#bindsym XF86AudioPrev exec playerctl previous
+#bindsym XF86Search exec $menu
+
+# Hardcore Stuff
+bindsym $super+Shift+l exec xscreensaver-command -lock
+bindsym $super+e kill
+bindsym $super+Shift+e reload
+bindsym $super+Shift+r restart
+bindsym $super+Shift+q exec "i3-nagbar -t warning -m 'exit?' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# Focus Hierarchy
+bindsym $super+f focus parent
+bindsym $super+g focus child
+
+# Move Focus
+bindsym $super+h focus left
+bindsym $super+Left focus left
+bindsym $super+j focus down
+bindsym $super+Down focus down
+bindsym $super+k focus up
+bindsym $super+Up focus up
+bindsym $super+l focus right
+bindsym $super+Right focus right
+
+# Move Containers
+bindsym $super+$alt+h move left
+bindsym $super+$alt+Left move left
+bindsym $super+$alt+j move down
+bindsym $super+$alt+Down move down
+bindsym $super+$alt+k move up
+bindsym $super+$alt+Up move up
+bindsym $super+$alt+l move right
+bindsym $super+$alt+Right move right
+
+# Move Workspaces
+bindsym $super+$alt+o move workspace to output left
+bindsym $super+$alt+p move workspace to output right
+
+# Layout Change
+bindsym $super+u layout stacking
+bindsym $super+i layout tabbed
+bindsym $super+o layout splith
+bindsym $super+p layout splitv
+
+# Fullscreen and Floating
+bindsym $super+$alt+space floating toggle
+bindsym $super+t fullscreen toggle
+
+# Split
+bindsym $super+n split v
+bindsym $super+m split h
+
+# Scratchpad
+bindsym $super+$alt+n move scratchpad
+bindsym $super+$alt+b scratchpad show
+
+# Move Containers to workspace
+bindsym $super+$alt+1 move container to workspace $WS1
+bindsym $super+$alt+2 move container to workspace $WS2
+bindsym $super+$alt+3 move container to workspace $WS3
+bindsym $super+$alt+4 move container to workspace $WS4
+bindsym $super+$alt+5 move container to workspace $WS5
+bindsym $super+$alt+6 move container to workspace $WS6
+bindsym $super+$alt+7 move container to workspace $WS7
+bindsym $super+$alt+8 move container to workspace $WS8
+bindsym $super+$alt+9 move container to workspace $WS9
+bindsym $super+$alt+0 move container to workspace $WS10
+
+# Switch Workspace
+bindsym $super+1 workspace $WS1
+bindsym $super+2 workspace $WS2
+bindsym $super+3 workspace $WS3
+bindsym $super+4 workspace $WS4
+bindsym $super+5 workspace $WS5
+bindsym $super+6 workspace $WS6
+bindsym $super+7 workspace $WS7
+bindsym $super+8 workspace $WS8
+bindsym $super+9 workspace $WS9
+bindsym $super+0 workspace $WS10
+
+# Resize Mode
+bindsym $super+r mode "resize"
+mode "resize" {
+
+     # Resize
+     bindsym $left   resize shrink width 100 px
+     bindsym $down   resize grow height 100 px
+     bindsym $up resize shrink height 100 px
+     bindsym $right  resize grow width 100 px
+     bindsym Left   resize shrink width 100 px
+     bindsym Down   resize grow height 100 px
+     bindsym Up resize shrink height 100 px
+     bindsym Right  resize grow width 100 px
+
+     # Exit resize mode
+     bindsym Return mode "default"
+     bindsym Escape mode "default"
+
+}

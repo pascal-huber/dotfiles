@@ -1,0 +1,36 @@
+# Default Title
+for_window [class=".*"] title_format \
+" <span size='medium' foreground='#aaaaff' font='DejaVu Sans Mono Bold 12'>#</span>  %title"
+
+# Titles for Terminals
+for_window [class="Alacritty"] title_format \
+" <span size='medium' foreground='#ff00ff' font='DejaVu Sans Mono Bold 12'>T</span>  %title"
+for_window [class="URxvt"] title_format \
+" <span size='medium' foreground='#ff00ff' font='DejaVu Sans Mono Bold 12'>T</span>  %title"
+for_window [class="xst-256color"] title_format \
+" <span size='medium' foreground='#ff00ff' font='DejaVu Sans Mono Bold 12'>T</span>  %title"
+for_window [class="Termite"] title_format \
+" <span size='medium' foreground='#ff00ff' font='DejaVu Sans Mono Bold 12'>T</span>  %title"
+for_window [class="Terminator"] title_format \
+" <span size='medium' foreground='#ff00ff' font='DejaVu Sans Mono Bold 12'>T</span>  %title"
+for_window [class="XTerm"] title_format \
+" <span size='medium' foreground='#ff00ff' font='DejaVu Sans Mono Bold 12'>T</span>  %title"
+
+# temporary
+# TODO: fix irc title on exit
+for_window [title=".*ssh.*irc.*tmux.*weechat.*a.*"] title_format \
+" <span size='medium' foreground='#ff7722' font='DejaVu Sans Mono Bold 12'>I</span>  IRC @ %title"
+for_window [class="glowing-bear"] title_format \
+" <span size='medium' foreground='#ff7722' font='DejaVu Sans Mono Bold 12'>I</span>  %title"
+
+# More Titles
+for_window [class="Chromium"] title_format \
+" <span size='medium' foreground='#88ff88' font='DejaVu Sans Mono Bold 12'>C</span>  %title"
+for_window [class="Brave-browser"] title_format \
+" <span size='medium' foreground='#eebb44' font='DejaVu Sans Mono Bold 12'>B</span>  %title"
+for_window [title="Mozilla Firefox"] title_format \
+" <span size='medium' foreground='#ff4444' font='DejaVu Sans Mono Bold 12'>F</span>  %title"
+for_window [class="qutebrowser"] title_format \
+" <span size='medium' foreground='#6666ff' font='DejaVu Sans Mono Bold 12'>Q</span>  %title"
+for_window [class="Emacs"] title_format \
+" <span size='medium' foreground='#ffff00' font='DejaVu Sans Mono Bold 12'>E</span>  %title"

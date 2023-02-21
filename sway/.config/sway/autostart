@@ -1,0 +1,15 @@
+
+# without appindicator
+exec gammastep -b 0.8:0.8 -t 4500:3500 -g 0.8 -l 47.3769:8.5417 -r
+exec waybar
+exec emacs --daemon
+exec dunst
+
+# with appindicator
+exec_always nextcloud --background
+exec_always blueman-applet
+exec_always antimicrox --hidden
+
+# also exec on reload
+exec_always --no-startup-id pipewire; pipewire-pulse
+exec_always xrdb ~/.Xdefaults && xrdb -merge ~/.Xresources-colors-dark

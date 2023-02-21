@@ -1,0 +1,11 @@
+
+set $fg #efefef
+set $bg #333333
+set $yellow #FFFF00
+set $red #FF0000
+
+# class                 border|backgr|text|indicator|child_border
+client.focused          $fg $fg $bg $fg $fg
+client.focused_inactive $bg $bg $yellow $bg $bg
+client.unfocused        $bg $bg $fg $bg $bg
+client.urgent           $bg $bg $red $bg $bg

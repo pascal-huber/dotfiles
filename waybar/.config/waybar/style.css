@@ -1,0 +1,203 @@
+
+/* ------------------------ */
+/* general settings */
+/* ------------------------ */
+
+* {
+  border-radius: 0;
+  font-family:   Iosevka Term Slab;
+  font-size:     18px;
+  font-weight:   bold;
+
+  box-shadow:    none;
+  text-shadow:   none;
+}
+
+window#waybar {
+  /* border-radius: 3; */
+}
+
+window {
+  color:      #cccccc;
+  background: #202020;
+}
+
+
+/* ------------------------ */
+/* modules */
+/* ------------------------ */
+
+#backlight,
+#battery,
+#clock,
+#cpu,
+#custom-arch,
+#custom-date,
+#custom-emacs,
+#custom-mail,
+#custom-memory,
+#custom-storage,
+#custom-temperature,
+#custom-time,
+#custom-void,
+#idle_inhibitor,
+#mode,
+#memory,
+#network,
+#tray,
+#pulseaudio {
+  margin:     0 .5rem;
+  min-width:  2rem;
+}
+
+/* ------------------------ */
+/* custom-separator */
+/* ------------------------ */
+
+#custom-separator {
+  color: rgba(80, 80, 80, 1);
+  margin: 0 .5rem;
+}
+
+
+/* ------------------------ */
+/* tray (last segment) */
+/* ------------------------ */
+
+#tray {
+  margin-right: 1rem;
+}
+
+
+/* ------------------------ */
+/* battery */
+/* ------------------------ */
+
+#battery.warning {
+  color:       rgba(255, 210, 4, 1);
+}
+
+#battery.critical {
+  color:      rgba(238, 46, 36, 1);
+}
+
+#battery.charging {
+  color:      rgba(217, 216, 216, 1);
+}
+
+
+/* ------------------------ */
+/* custom-storage */
+/* ------------------------ */
+
+#custom-storage.warning {
+  color:      rgba(255, 210, 4, 1);
+}
+
+#custom-storage.critical {
+  color:      rgba(238, 46, 36, 1);
+}
+
+
+/* ------------------------ */
+/* workspaces */
+/* ------------------------ */
+
+#workspaces {
+  margin: 0 0rem;
+}
+
+#workspaces * {
+  font-family: DejaVuSansMono Nerd Font;
+  font-size: 18px;
+}
+
+#workspaces button {
+  padding: 0 1rem;
+  /* color: #efefef; */
+  min-width: 1.5rem;
+  /* border-top: 2px solid #808080; */
+  /* border-bottom: 2px solid #808080; */
+  /* border-right: 1px solid #808080; */
+  /* border-left: 1px solid #808080; */
+  border-top: 3px solid #202020;
+  border-bottom: 3px solid #202020;
+}
+
+#workspaces button.workspace-1.focused {
+  color: #d1ff99;
+  background-image: linear-gradient(to right, #6a7e51, #000, #6a7e51);
+  /* border-top: 3px solid #d1ff99; */
+  border-bottom: 3px solid #d1ff99;
+}
+
+#workspaces button.workspace-2.focused {
+  color: #FBDB64;
+  background-image: linear-gradient(to right, #9f8400, #000, #9f8400);
+  /* border-top: 3px solid #FBDB65; */
+  border-bottom: 3px solid #FBDB65;
+}
+
+#workspaces button.workspace-2.focused {
+  color: #FBDB65;
+  background-image: linear-gradient(to right, #9f8400, #000, #9f8400);
+  /* border-top: 3px solid #FBDB65; */
+  border-bottom: 3px solid #FBDB65;
+}
+
+#workspaces button.workspace-3.focused {
+  color: #ffb7fd;
+  background-image: linear-gradient(to right, #824f81, #000, #824f81);
+  /* border-top: 3px solid #ffb7fd; */
+  border-bottom: 3px solid #ffb7fd;
+}
+
+#workspaces button.workspace-4.focused {
+  color: #71baff;
+  background-image: linear-gradient(to right,#3e61ac, #000, #3e61ac);
+  /* border-top: 3px solid #71baff; */
+  border-bottom: 3px solid #71baff;
+}
+
+#workspaces button.workspace-5.focused {
+  color:  #f1964b;
+  background-image: linear-gradient(to right,#915a2e, #000, #915a2e);
+  /* border-top: 3px solid #f1964b; */
+  border-bottom: 3px solid #f1964b;
+}
+
+#workspaces button.workspace-6.focused {
+  color: #80ff86;
+  background-image: linear-gradient(to right, #698d65, #000, #698d65);
+  /* border-top: 3px solid #80ff86; */
+  border-bottom: 3px solid #80ff86;
+}
+
+#workspaces button.workspace-7.focused {
+  color: #ca84d5;
+  background-image: linear-gradient(to right,#64276e, #000, #64276e);
+  /* border-top: 3px solid #c673d2; */
+  border-bottom: 3px solid #c673d2;
+}
+
+#workspaces button.workspace-8.focused {
+  color: #b5e0ff;
+  background-image: linear-gradient(to right, #5c707f, #000, #5c707f);
+  /* border-top: 3px solid #b5e0ff; */
+  border-bottom: 3px solid #b5e0ff;
+}
+
+#workspaces button.workspace-9.focused {
+  color: #d57474;
+  background-image: linear-gradient(to right, #7c2f2f, #000, #7c2f2f);
+  /* border-top: 3px solid #d57474; */
+  border-bottom: 3px solid #d57474;
+}
+
+#workspaces button.workspace-10.focused {
+  color: #d7d7d7;
+  background-image: linear-gradient(to right, #676767, #000, #676767);
+  /* border-top: 3px solid #d7d7d7; */
+  border-bottom: 3px solid #d7d7d7;
+}
+

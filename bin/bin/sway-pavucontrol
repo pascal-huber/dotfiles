@@ -1,0 +1,22 @@
+#!/bin/sh
+# source: https://www.reddit.com/r/swaywm/comments/u3kw7y/hideshow_a_window/
+
+executable="pavucontrol"
+app_id="pavucontrol"
+
+window=$(swaymsg -t get_tree | jq -r '..|try select(.app_id == "'$app_id'")')
+
+if [ ! -z "$(echo $window | jq -r .pid)" ]; then
+    echo "window with app_id \"$app_id\" exists"
+    if [ "$(echo $window | jq -r .visible)" = "true" ]; then
+        echo "window is visible, move it to scratchpad"
+        swaymsg [ app_id="$app_id" ] move scratchpad
+    else
+        echo "window is not visible, show it"
+        swaymsg [ app_id="$app_id" ] move window to workspace current, move scratchpad, scratchpad show
+    fi
+else
+    echo "window with app_id \"$app_id\" does not exist"
+    echo "launching $executable"
+    [ -x $(command -v $executable) ] && $executable >/dev/null 2>&1 &
+fi

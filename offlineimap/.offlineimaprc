@@ -4,7 +4,8 @@
 
 [general]
 accounts = Private, ETH, QuickshiftPascal
-maxsyncaccounts = 1
+maxsyncaccounts = 4
+maxconnections = 4
 pythonfile = ~/.offlineimap.py
 
 ##################################################################

@@ -25,6 +25,8 @@
     "custom/space",
     "custom/flatpak_updates",
     "custom/separator",
+    "custom/document_inbox",
+    "custom/separator",
     "custom/mail",
     "custom/separator",
     "custom/date",
@@ -49,9 +51,15 @@
     "on-click": "gsimplecal"
   },
   "custom/mail": {
-    "format": "<span font='DejaVuSansMono Nerd Font 12' rise='1550'></span>  {}",
+    "format": "<span font='DejaVuSansMono Nerd Font 11' rise='1550'></span>  {}",
     "interval": 60,
     "exec": "~/.config/waybar/modules/mail.sh",
+    "tooltip": false
+  },
+  "custom/document_inbox": {
+    "format": "<span font='DejaVuSansMono Nerd Font 11' rise='1550'></span> {}",
+    "interval": 60,
+    "exec": "ls ~/cloud/personal-documents/inbox | wc -l",
     "tooltip": false
   },
   "custom/arch": {

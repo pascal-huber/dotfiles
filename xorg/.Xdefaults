@@ -11,7 +11,7 @@
 !-------------------------------------------------------------------------------
 
 st.termname:     xst-256color
-st.font: Iosevka Nerd Font Mono:size=12:regular
+st.font: Iosevka Term Slab:size=12:bold
 
 !-------------------------------------------------------------------------------
 ! Arbitrary Settings
@@ -19,6 +19,9 @@ st.font: Iosevka Nerd Font Mono:size=12:regular
 
 Xft.dpi: 141
 Xcursor.size: 40
+! Xcursor.theme: redglass
+! Xcursor.theme: Vanilla-DMZ
+Xcursor.theme: Bibata-Original-Amber
 
 !-------------------------------------------------------------------------------
 ! XTerm Settings
@@ -27,21 +30,22 @@ Xcursor.size: 40
 XTerm*termName: xterm-256color
 XTerm.vt100.locale: false
 XTerm.vt100.utf8: true
-XTerm.vt100.faceName: Iosevka Nerd Font Mono:size=12
+XTerm.vt100.faceName: Iosevka Term Slab:size=12
 
 !-------------------------------------------------------------------------------
 ! URxvt Settings
 !-------------------------------------------------------------------------------
 
-URxvt*termName: rxvt-unicode-256color
+!URxvt*termName: rxvt-unicode-256color
+URxvt*termName: rxvt-unicode
 urxvt.perl-ext-common: default,tabbed,matcher,-tabbed
 
 ! Font
-URxvt*font:           xft:Iosevka Nerd Font Mono:size=12:regular
-URxvt*boldFont:       xft:Iosevka Nerd Font Mono:size=12:bold
-URxvt*italicFont:     xft:Iosevka Nerd Font Mono:size=12:italic
-URxvt*imFont:         xft:Iosevka Nerd Font Mono:size=12:italic
-URxvt*boldItalicFont: xft:Iosevka Nerd Font Mono:size=12:bold:italic
+URxvt*font:           xft:Iosevka Term Slab:size=12:regular
+URxvt*boldFont:       xft:Iosevka Term Slab:size=12:bold
+URxvt*italicFont:     xft:Iosevka Term Slab:size=12:italic
+URxvt*imFont:         xft:Iosevka Term Slab:size=12:italic
+URxvt*boldItalicFont: xft:Iosevka Term Slab:size=12:bold:italic
 
 ! disable ctrl-shift
 URxvt*iso14755_52: false

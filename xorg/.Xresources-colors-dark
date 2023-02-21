@@ -1,41 +1,77 @@
+! Zenburn color-scheme
+URxvt.background              :#202020
+URxvt.foreground              :#dcdccc
 
-! -----------------------------------------------------------------------------
-! Gruvbox terminal sexy
-! -----------------------------------------------------------------------------
+! black + red
+!URxvt.color0                 :#3f3f3f
+URxvt.color0                  :#1f1f1f
+URxvt.color1                  :#705050
 
-! special
-*.foreground:   #ebdbb2
-*.background:   #282828
-*.cursorColor:  #ebdbb2
+! green + yellow
+URxvt.color2                  :#60b48a
+URxvt.color3                  :#dfaf8f
 
-! black
-*.color0:       #282828
-*.color8:       #665c54
+! blue + purple
+URxvt.color4                  :#506070
+URxvt.color5                  :#dc8cc3
 
-! red
-*.color1:       #cc241d
-*.color9:       #fb4934
+! cyan + white
+URxvt.color6                  :#8cd0d3
+URxvt.color7                  :#dcdccc
 
-! green
-*.color2:       #98971a
-*.color10:      #b8bb26
+! bright-black + bright-red
+URxvt.color8                  :#709080
+URxvt.color9                  :#ffa3a3
 
-! yellow
-*.color3:       #d79921
-*.color11:      #fabd2f
+! bright-green + bright-yellow
+URxvt.color10                 :#c3ff9f
+URxvt.color11                 :#f0dfaf
 
-! blue
-*.color4:       #458588
-*.color12:      #83a598
+! bright-blue + bright-purple
+URxvt.color12                 :#94bff3
+URxvt.color13                 :#ec93d3
 
-! magenta
-*.color5:       #b16286
-*.color13:      #d3869b
+! bright-cyan + bright-white
+URxvt.color14                 :#93e0e3
+URxvt.color15                 :#ffffff
 
-! cyan
-*.color6:       #689d6a
-*.color14:      #8ec07c
+! ! -----------------------------------------------------------------------------
+! ! Gruvbox terminal sexy
+! ! -----------------------------------------------------------------------------
 
-! white
-*.color7:       #d5c4a1
-*.color15:      #fbf1c7
+! ! special
+! *.foreground:   #ebdbb2
+! *.background:   #282828
+! *.cursorColor:  #ebdbb2
+
+! ! black
+! *.color0:       #282828
+! *.color8:       #665c54
+
+! ! red
+! *.color1:       #cc241d
+! *.color9:       #fb4934
+
+! ! green
+! *.color2:       #98971a
+! *.color10:      #b8bb26
+
+! ! yellow
+! *.color3:       #d79921
+! *.color11:      #fabd2f
+
+! ! blue
+! *.color4:       #458588
+! *.color12:      #83a598
+
+! ! magenta
+! *.color5:       #b16286
+! *.color13:      #d3869b
+
+! ! cyan
+! *.color6:       #689d6a
+! *.color14:      #8ec07c
+
+! ! white
+! *.color7:       #d5c4a1
+! *.color15:      #fbf1c7

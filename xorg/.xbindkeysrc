@@ -6,7 +6,7 @@
 "emacsclient -nc"
 Mod2+Mod4 + v
 
-"xst"
+"urxvt"
 Mod2+Mod4 + Return
 
 "rofi -show combi -modi combi -combi-modi run,drun -sort true -levenshtein-sort"
@@ -27,7 +27,10 @@ Mod2+Mod4 + b
 # "urxvt -name ncpamixer -e ncpamixer"
 # Mod2+Mod4 + b
 #
-"scrot -s ~/tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
+# FIXME: try if bug with line still exists without -f (freeze)
+# https://github.com/dreamer/scrot/issues/2
+# "scrot -fs ~/tmp/screenshot-$(date +%F_%T).png -e 'xclip -selection c -t image/png < $f'"
+"flameshot gui"
 Mod2+Mod4 + y
 
 "rofi -show window"

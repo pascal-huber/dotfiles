@@ -1,3 +1,5 @@
+#!/usr/bin/env fish
+
 if not set -q fish_initialized
 
     # ls

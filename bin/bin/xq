@@ -1,0 +1,29 @@
+#!/bin/sh
+# xq - like xbps-query, but take cwd repo into account
+
+if [ -n "$XBPS_HOSTDIR" ]; then
+	XBPS_BINPKGS="$XBPS_HOSTDIR/binpkgs"
+else
+	XBPS_DISTDIR="$(xdistdir 2>/dev/null)" || XBPS_DISTDIR=.
+	XBPS_BINPKGS="$XBPS_DISTDIR/hostdir/binpkgs"
+fi
+
+set -- \
+	--repository="$XBPS_BINPKGS" \
+	--repository="$XBPS_BINPKGS/nonfree" \
+	--repository="$XBPS_BINPKGS/multilib" \
+	--repository="$XBPS_BINPKGS/multilib/nonfree" \
+	--repository="$XBPS_BINPKGS/debug" \
+	"$@"
+
+if BRANCH=$(git symbolic-ref -q --short HEAD 2>/dev/null) && [ -n "$BRANCH" ]; then
+	set -- \
+		--repository="$XBPS_BINPKGS/$BRANCH" \
+		--repository="$XBPS_BINPKGS/$BRANCH/nonfree" \
+		--repository="$XBPS_BINPKGS/$BRANCH/multilib" \
+		--repository="$XBPS_BINPKGS/$BRANCH/multilib/nonfree" \
+		--repository="$XBPS_BINPKGS/$BRANCH/debug" \
+		"$@"
+fi
+
+xbps-query $@

@@ -1,0 +1,84 @@
+#!/bin/sh
+# xupdate-check [-S, -m, pattern...] - Show update-check info for packages
+#    -S Sync with the official update-check results, which is
+#       recommended for using the tool
+#    -m Show only manually installed packages
+#
+# Example 1: Show updates for installed packages
+#  xupdate-check
+#
+# Example 2: Show updates for manually installed packages
+#  xupdate-check -m
+#
+# Example 3: Show updates for all packages
+#  xupdate ".*"
+#
+# Example 4: Show updates for firefox and fwupd
+#   xupdate firefox fwupd
+#
+# Example 5: Show updates for python packages ending with n
+#   xupdate-check "python.*n"
+
+: ${XDG_CACHE_HOME:=~/.cache}
+: ${XUC_CACHE:=$XDG_CACHE_HOME/xupdate-check}
+: ${XUC_REMOTE:='repo-default.voidlinux.org'}
+
+# TODO: why is the rsync path different to http?
+XUC_REMOTE_RSYNC="rsync://${XUC_REMOTE}/voidlinux/void-updates/void-updates"
+XUC_REMOTE_HTTPS="https://${XUC_REMOTE}/void-updates/void-updates"
+
+last_modified_remote(){
+    line=$(curl -s -v -X HEAD "${XUC_REMOTE_HTTPS}/_log.txt" 2>&1 | grep last-modified)
+    echo "${line#*:}"
+}
+
+check_cache_timestamp(){
+    timestamp_remote=$(last_modified_remote)
+    timestamp_cache=$(cat "${XUC_CACHE}/timestamp")
+    if [ ! "$timestamp_remote" =  "$timestamp_cache" ]; then
+        echo "xupdate-check: cache outdated, please run xupdate-check -S." 1>&2
+    fi
+}
+
+check_updates(){
+    grep -h "^${1} .*->.*" "${XUC_CACHE}"/void-updates/updates_*
+    grep "NO VERSION found for ${1}$" "${XUC_CACHE}/void-updates/_log.txt"
+}
+
+
+update_cache(){
+    # TODO: check rsync options
+    rsync -rPz "${XUC_REMOTE_RSYNC}" "${XUC_CACHE}" --delete
+    last_modified_remote > "${XUC_CACHE}/timestamp"
+}
+
+pkgs=""
+case "$1" in
+    "-S")
+        update_cache
+        exit 0
+        ;;
+    "-m")
+        pkgs=$(xbps-query -m  | sed 's#\(.*\)-[^-]*#\1#g')
+        ;;
+    "")
+        pkgs=$(xbps-query -l | cut -d" " -f2 | sed 's#\(.*\)-[^-]*#\1#g')
+        ;;
+esac
+
+if [ ! -d "${XUC_CACHE}" ]; then
+    echo "xupdate-check: cache inexistent, please run xupdate-check -S." 1>&2
+    exit 1
+fi
+
+check_cache_timestamp
+# TODO: check if there is a nicer solution in sh
+if [ "$pkgs" = "" ]; then
+    for pkg in "$@"; do
+        check_updates "${pkg}"
+    done
+else
+    for pkg in $pkgs; do
+        check_updates "${pkg}"
+    done
+fi

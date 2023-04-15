@@ -3,10 +3,7 @@
 for_window [class=".*"] border normal
 
 # Floating windows
-# for_window [instance="ncpamixer"] floating enable, move position 640 60, resize set 1280 1280;
-for_window [app_id="org.keepassxc.KeePassXC"] floating enable, move position 640 200, resize set 1280 720;
-for_window [instance="scratchterm"] floating enable, move position 280 100, resize set 2000 1200, border none;
-for_window [instance="scratchtop"] floating enable, move position 280 100, resize set 2000 1200, border none;
+for_window [app_id="org.keepassxc.KeePassXC"] floating enable, resize set 1280 1280;
 for_window [app_id="pavucontrol"] floating enable, resize set 1000 1350
 for_window [class="pavucontrol-qt"] floating enable, resize set 1200 1000
 for_window [class="Xsane"] floating enable

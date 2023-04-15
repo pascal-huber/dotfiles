@@ -1,15 +1,24 @@
 
 # without appindicator
 exec gammastep -b 0.8:0.8 -t 4500:3500 -g 0.8 -l 47.3769:8.5417 -r
-exec waybar
 exec emacs --daemon
 exec dunst
 
 # with appindicator
-exec_always nextcloud --background
-exec_always blueman-applet
-exec_always antimicrox --hidden
+exec nextcloud --background
+exec blueman-applet
+exec antimicrox --hidden
 
-# also exec on reload
-exec_always --no-startup-id pipewire; pipewire-pulse
+# reload xrdb config on start and reload
 exec_always xrdb ~/.Xdefaults && xrdb -merge ~/.Xresources-colors-dark
+
+# TODO: dbus-update-activation-environment necessary for screen sharing and pipewire
+exec dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+# TODO: is this really "the" way to start pipewire?
+# TODO: do I need wireplumber?
+exec pipewire
+exec pipewire-pulse
+
+# start the bar
+exec waybar

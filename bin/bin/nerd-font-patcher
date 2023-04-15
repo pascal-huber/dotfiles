@@ -9,7 +9,7 @@ if ! test -r ~/git/nerd-fonts/font-patcher; then
     echo "Couldn't find nerd-fonts in ~/git/nerd-fonts/font-patcher";
     exit 1
 fi
-if ! command -v fontforge4; then
+if ! command -v fontforge; then
     echo "Couldn't find fontforge";
     exit 1
 fi

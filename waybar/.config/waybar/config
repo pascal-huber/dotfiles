@@ -1,13 +1,30 @@
+[
 {
   "layer": "bottom",
+  "position": "bottom",
+  "output": "DP-1xxx",
+  "height": 30,
+  "margin-right": 0,
+  "margin-bottom": 0,
+  "modules-center": ["sway/workspaces", "sway/mode"],
+  "include": [
+    "~/.config/waybar/modules.json",
+  ],
+},
+{
+  "layer": "bottom",
+  "position": "bottom",
+  "output": "HDMI-A-1",
   "height": 30,
   "margin-right": 0,
   "margin-bottom": 0,
   "margin-top": 0,
   "margin-left": 0,
   "position": "bottom",
+  "include": [
+    "~/.config/waybar/modules.json",
+  ],
   "modules-left": ["sway/workspaces", "sway/mode"],
-  "modules-center": [],
   "modules-right": [
     "custom/memory",
     "custom/zfs_memory",
@@ -34,128 +51,4 @@
     "custom/separator",
     "tray"
   ],
-  "sway/mode": {
-    "format": "{}"
-  },
-  "custom/time": {
-    "format": "<span font='DejaVuSansMono Nerd Font 14' rise='0'></span> {}",
-    "interval": 10,
-    "exec": "date '+%H:%M'",
-    "tooltip": false
-  },
-  "custom/date": {
-    "format": "<span font='DejaVuSansMono Nerd Font 12' rise='1000'></span> {}",
-    "interval": 120,
-    "exec": "date '+%a %-e %b'",
-    "tooltip": false,
-    "on-click": "gsimplecal"
-  },
-  "custom/mail": {
-    "format": "<span font='DejaVuSansMono Nerd Font 11' rise='1550'></span>  {}",
-    "interval": 60,
-    "exec": "~/.config/waybar/modules/mail.sh",
-    "tooltip": false
-  },
-  "custom/document_inbox": {
-    "format": "<span font='DejaVuSansMono Nerd Font 11' rise='1550'></span> {}",
-    "interval": 60,
-    "exec": "ls ~/cloud/personal-documents/inbox | wc -l",
-    "tooltip": false
-  },
-  "custom/arch": {
-    "format": "<span font='12'></span>  {}",
-    "exec": "echo `checkupdates | wc -l`-`cower -u | wc -l`"
-  },
-  "custom/cloud_backup": {
-    "format": "<span font='DejaVuSansMono Nerd Font 12' rise='2000'></span> {}",
-    "exec": "~/.config/waybar/modules/cloud-backup.sh",
-  },
-  "custom/void_updates": {
-    "format": "<span font='font-logos 14'></span> {}",
-    "exec": "~/.config/waybar/modules/void_updates.sh",
-  },
-  "custom/flatpak_updates": {
-    "format": "<span font='font-logos 14' rise='-1000'></span> {}",
-    "exec": "~/.config/waybar/modules/flatpak_updates.sh",
-  },
-  "network": {
-    "format": "{ipaddr}",
-    "format-wifi": "<span font='DejaVuSansMono Nerd Font 14'></span>  {essid} ({signalStrength}%)",
-    "format-ethernet": "{ifname} ",
-    "format-disconnected": "unplugged",
-    "on-click-right": "nm-connection-editor",
-    "on-click": "urxvt -e nmtui-connect"
-  },
-  "pulseaudio": {
-    "format": "<span font='DejaVuSansMono Nerd Font 14'>{icon}</span> {volume}%",
-    "format-muted": "",
-    "format-icons": {
-      "phone": [" ", " ", " ", " "],
-      "default": ["", "", "", ""]
-    },
-    "scroll-step": 1,
-    "on-click": "sway-pavucontrol",
-    "tooltip": false
-  },
-  "sway/workspaces": {
-    "format": "{name}",
-    "disable-scroll": true,
-    "all-outputs": false,
-    "format": "<span font='DejaVuSansMono Nerd Font 16' rise='0'>{icon}</span>",
-    "format-icons": {
-      "1": "",
-      "2": "",
-      "@x$ f": "t",
-      "3": "﯑",
-      "4": "",
-      "5": "",
-      "6": "",
-      "7": "",
-      "8": "",
-      "9": "",
-      "10": "",
-      "urgent": "",
-      "focused": "",
-      "default": ""
-    }
-  },
-  "battery": {
-    "format": "{icon} {capacity}%",
-    "format-icons": ["", "", "", "", ""],
-    "format-charging": "{capacity}% ",
-    "interval": 30,
-    "states": {
-      "warning": 25,
-      "critical": 10
-    },
-    "tooltip": false
-  },
-  "backlight": {
-    "format": "<span font='12'>{icon}</span>  {percent}%",
-    "format-icons": ["", "", "", ""],
-    "on-scroll-down": "light -U 1",
-    "on-scroll-up": "light -A 1"
-  },
-  "custom/separator": {
-    "format": "|"
-  },
-  "custom/space": {
-    "format": " "
-  },
-  "custom/memory": {
-    "format": "<span font='DejaVuSansMono Nerd Font 16'></span> {}",
-    "exec": "free -h | grep Mem | awk '{print $7}' | sed -e 's/Gi/ GB/g'"
-  },
-  "custom/zfs_memory": {
-    "format": "<span font='DejaVuSansMono Nerd Font 16'></span> {}",
-    "exec": "~/.config/waybar/modules/zfs_memory.sh",
-  },
-  "disk": {
-    "format": "{free}",
-  },
-  "tray": {
-    "icon-size": 16,
-    "spacing": 10
-  }
-
-}
+}]

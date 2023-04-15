@@ -124,77 +124,77 @@ window {
   border-bottom: 3px solid #202020;
 }
 
-#workspaces button.workspace-1.focused {
+#workspaces button#sway-workspace-1.focused {
   color: #d1ff99;
   background-image: linear-gradient(to right, #6a7e51, #000, #6a7e51);
   /* border-top: 3px solid #d1ff99; */
   border-bottom: 3px solid #d1ff99;
 }
 
-#workspaces button.workspace-2.focused {
+#workspaces button#sway-workspace-2.focused {
   color: #FBDB64;
   background-image: linear-gradient(to right, #9f8400, #000, #9f8400);
   /* border-top: 3px solid #FBDB65; */
   border-bottom: 3px solid #FBDB65;
 }
 
-#workspaces button.workspace-2.focused {
+#workspaces button#sway-workspace-2.focused {
   color: #FBDB65;
   background-image: linear-gradient(to right, #9f8400, #000, #9f8400);
   /* border-top: 3px solid #FBDB65; */
   border-bottom: 3px solid #FBDB65;
 }
 
-#workspaces button.workspace-3.focused {
+#workspaces button#sway-workspace-3.focused {
   color: #ffb7fd;
   background-image: linear-gradient(to right, #824f81, #000, #824f81);
   /* border-top: 3px solid #ffb7fd; */
   border-bottom: 3px solid #ffb7fd;
 }
 
-#workspaces button.workspace-4.focused {
+#workspaces button#sway-workspace-4.focused {
   color: #71baff;
   background-image: linear-gradient(to right,#3e61ac, #000, #3e61ac);
   /* border-top: 3px solid #71baff; */
   border-bottom: 3px solid #71baff;
 }
 
-#workspaces button.workspace-5.focused {
+#workspaces button#sway-workspace-5.focused {
   color:  #f1964b;
   background-image: linear-gradient(to right,#915a2e, #000, #915a2e);
   /* border-top: 3px solid #f1964b; */
   border-bottom: 3px solid #f1964b;
 }
 
-#workspaces button.workspace-6.focused {
+#workspaces button#sway-workspace-6.focused {
   color: #80ff86;
   background-image: linear-gradient(to right, #698d65, #000, #698d65);
   /* border-top: 3px solid #80ff86; */
   border-bottom: 3px solid #80ff86;
 }
 
-#workspaces button.workspace-7.focused {
+#workspaces button#sway-workspace-7.focused {
   color: #ca84d5;
   background-image: linear-gradient(to right,#64276e, #000, #64276e);
   /* border-top: 3px solid #c673d2; */
   border-bottom: 3px solid #c673d2;
 }
 
-#workspaces button.workspace-8.focused {
+#workspaces button#sway-workspace-8.focused {
   color: #b5e0ff;
   background-image: linear-gradient(to right, #5c707f, #000, #5c707f);
   /* border-top: 3px solid #b5e0ff; */
   border-bottom: 3px solid #b5e0ff;
 }
 
-#workspaces button.workspace-9.focused {
+#workspaces button#sway-workspace-9.focused {
   color: #d57474;
   background-image: linear-gradient(to right, #7c2f2f, #000, #7c2f2f);
   /* border-top: 3px solid #d57474; */
   border-bottom: 3px solid #d57474;
 }
 
-#workspaces button.workspace-10.focused {
+#workspaces button#sway-workspace-10.focused {
   color: #d7d7d7;
   background-image: linear-gradient(to right, #676767, #000, #676767);
   /* border-top: 3px solid #d7d7d7; */

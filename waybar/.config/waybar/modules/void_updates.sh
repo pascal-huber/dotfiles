@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+#
+# echo "{\"text\": \"P\"}"
 
 packages=$(xbps-install -nuM 2>/dev/null)
 
@@ -26,10 +29,12 @@ if (( $(xbps-query -O | wc -l) > 0 )); then
 fi
 
 # private templates
-UPDATE_LOG_FILE="https://raw.githubusercontent.com/pascal-huber/void-templates/gh-pages/updates.txt"
-update_log_size=$(curl --head $UPDATE_LOG_FILE 2>/dev/null | grep content-length | awk '{print $2}' | tr -dc '[:alnum:]')
-if [ "$update_log_size" != "0" ]; then
-  power_symbol="${power_symbol}T"
+UPDATE_LOG_FILE="https://raw.githubusercontent.com/pascal-huber/void-packages/gh-pages/updates.txt"
+tooltip="$(curl $UPDATE_LOG_FILE 2>/dev/null)"
+if [ "$?" != "0" ]; then
+   power_symbol="${power_symbol}?"
+else
+   power_symbol="${power_symbol}T"
 fi
 
 
@@ -44,4 +49,6 @@ fi
 #     fi
 # done
 
-echo "${to_install}<span font_scale='superscript' rise='4000'>${power_symbol}</span>"
+text="${to_install}<span font_scale='superscript' rise='4000'>${power_symbol}</span>"
+echo "{\"text\": \"$text\", \"tooltip\": \"${tooltip//$'\n'/\\n}\"}"
+exit 0

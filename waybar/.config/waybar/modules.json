@@ -1,0 +1,140 @@
+{
+  "sway/mmde": {
+    "format": "{}",
+    "tooltip": false
+  },
+  "custom/time": {
+    "format": "<span font='DejaVuSansMono Nerd Font 14' rise='0'></span> {}",
+    "interval": 5,
+    "exec": "date '+%H:%M'",
+    "tooltip": false
+  },
+  "custom/date": {
+    "format": "<span font='DejaVuSansMono Nerd Font 12' rise='1000'></span> {}",
+    "interval": 120,
+    "exec": "date '+%a %-e %b'",
+    "tooltip": false,
+    "on-click": "gsimplecal"
+  },
+  "custom/mail": {
+    "format": "<span font='DejaVuSansMono Nerd Font 11' rise='1550'></span>  {}",
+    "interval": 10,
+    "exec": "~/.config/waybar/modules/mail.sh",
+    "tooltip": false
+  },
+  "custom/document_inbox": {
+    "format": "<span font='DejaVuSansMono Nerd Font 11' rise='1550'></span> {}",
+    "interval": 10,
+    "exec": "ls ~/cloud/personal-documents/inbox | wc -l",
+    "tooltip": false
+  },
+  "custom/cloud_backup": {
+    "format": "<span font='DejaVuSansMono Nerd Font 12' rise='2000'></span> {}",
+    "interval": 60,
+    "exec": "~/.config/waybar/modules/cloud-backup.sh",
+    "tooltip": false
+  },
+  "custom/void_updates": {
+    "format": "<span font='font-logos 14'></span> {}",
+    "interval": 300,
+    "return-type": "json",
+    "exec": "~/.config/waybar/modules/void_updates.sh",
+    "on-click": "xdg-open 'https://raw.githubusercontent.com/pascal-huber/void-packages/gh-pages/updates.txt'",
+    "tooltip": true,
+    "tooltip-format": "<span>{}</span.",
+  },
+  "custom/flatpak_updates": {
+    "format": "<span font='font-logos 14' rise='-1000'></span> {}",
+    "interval": 300,
+    "exec": "~/.config/waybar/modules/flatpak_updates.sh",
+    "tooltip": false
+  },
+  "network": {
+    "format": "{ipaddr}",
+    "format-wifi": "<span font='DejaVuSansMono Nerd Font 14'></span>  {essid} ({signalStrength}%)",
+    "format-ethernet": "{ifname} ",
+    "format-disconnected": "unplugged",
+    "on-click-right": "nm-connection-editor",
+    "on-click": "urxvt -e nmtui-connect",
+    "tooltip": false
+  },
+  "pulseaudio": {
+    "format": "<span font='DejaVuSansMono Nerd Font 14'>{icon}</span> {volume}%",
+    "format-muted": "",
+    "format-icons": {
+      "phone": [" ", " ", " ", " "],
+      "default": ["", "", ""]
+    },
+    "scroll-step": 1,
+    "on-click": "sway-pavucontrol",
+    "tooltip": false
+  },
+  "sway/workspaces": {
+    "format": "{name}",
+    "disable-scroll": true,
+    "all-outputs": false,
+    "format": "<span font='DejaVuSansMono Nerd Font 16' rise='0'>{icon}</span>",
+    "format-icons": {
+      "1": "",
+      "2": "",
+      "3": "﯑",
+      "4": "",
+      "5": "",
+      "6": "",
+      "7": "",
+      "8": "",
+      "9": "",
+      "10": "",
+      "urgent": "",
+      "focused": "",
+      "default": ""
+    }
+  },
+  "battery": {
+    "format": "{icon} {capacity}%",
+    "format-icons": ["", "", "", "", ""],
+    "format-charging": "{capacity}% ",
+    "interval": 30,
+    "states": {
+      "warning": 25,
+      "critical": 10
+    },
+    "tooltip": false
+  },
+  "backlight": {
+    "format": "<span font='12'>{icon}</span>  {percent}%",
+    "format-icons": ["", "", "", ""],
+    "on-scroll-down": "light -U 1",
+    "on-scroll-up": "light -A 1",
+    "tooltip": false
+  },
+  "custom/separator": {
+    "format": "|",
+    "tooltip": false
+  },
+  "custom/space": {
+    "format": " ",
+    "tooltip": false
+  },
+  "custom/memory": {
+    "format": "<span font='DejaVuSansMono Nerd Font 16'></span> {}",
+    "interval": 5,
+    "exec": "free -h | grep Mem | awk '{print $7}' | sed -e 's/Gi/ GB/g'",
+    "tooltip": false
+  },
+  "custom/zfs_memory": {
+    "format": "<span font='DejaVuSansMono Nerd Font 16'></span> {}",
+    "interval": 5,
+    "exec": "~/.config/waybar/modules/zfs_memory.sh",
+    "tooltip": false
+  },
+  "disk": {
+    "format": "{free}",
+    "tooltip": false
+  },
+  "tray": {
+    "icon-size": 16,
+    "spacing": 10,
+    "tooltip": false
+  }
+}

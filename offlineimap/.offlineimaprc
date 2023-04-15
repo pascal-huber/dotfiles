@@ -3,7 +3,7 @@
 ##################################################################
 
 [general]
-accounts = Private, ETH, QuickshiftPascal
+accounts = Private, QuickshiftPascal
 maxsyncaccounts = 4
 maxconnections = 4
 pythonfile = ~/.offlineimap.py
@@ -33,23 +33,23 @@ sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 # ETHZ
 ##################################################################
 
-[Account ETH]
-localrepository = ETHLocal
-remoterepository = ETHRemote
+# [Account ETH]
+# localrepository = ETHLocal
+# remoterepository = ETHRemote
 
-[Repository ETHLocal]
-type = Maildir
-localfolders = ~/.mail/e
+# [Repository ETHLocal]
+# type = Maildir
+# localfolders = ~/.mail/e
 
-[Repository ETHRemote]
-type = IMAP
-remotehost = mail.ethz.ch
-remoteport = 993
-remoteuser = pahuber
-remotepasseval = get_keyring_pw('pahuber@student.ethz.ch')
-realdelete = no
-folderfilter = lambda folder: folder in ['INBOX', 'Drafts', 'Sent Items', 'INBOX/tmp', 'INBOX/keep', 'INBOX/and', 'INBOX/algolab-old', 'INBOX/apc', 'INBOX/oop', 'Deleted Items', 'Junk E-Mail', 'INBOX/iml', 'INBOX/asl', 'INBOX/pass', 'INBOX/negotiation', 'INBOX/podc', 'INBOX/algolab', 'INBOX/failure', 'INBOX/umwelt', 'INBOX/dphpc', 'INBOX/pai', 'INBOX/syssec', 'INBOX/informal', 'INBOX/comparch']
-sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+# [Repository ETHRemote]
+# type = IMAP
+# remotehost = mail.ethz.ch
+# remoteport = 993
+# remoteuser = pahuber
+# remotepasseval = get_keyring_pw('pahuber@student.ethz.ch')
+# realdelete = no
+# folderfilter = lambda folder: folder in ['INBOX', 'Drafts', 'Sent Items', 'INBOX/tmp', 'INBOX/keep', 'INBOX/and', 'INBOX/algolab-old', 'INBOX/apc', 'INBOX/oop', 'Deleted Items', 'Junk E-Mail', 'INBOX/iml', 'INBOX/asl', 'INBOX/pass', 'INBOX/negotiation', 'INBOX/podc', 'INBOX/algolab', 'INBOX/failure', 'INBOX/umwelt', 'INBOX/dphpc', 'INBOX/pai', 'INBOX/syssec', 'INBOX/informal', 'INBOX/comparch']
+# sslcacertfile = /etc/ssl/certs/ca-certificates.crt
 
 ##################################################################
 # QuickShift

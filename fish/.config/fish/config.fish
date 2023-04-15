@@ -21,7 +21,8 @@ if status --is-login
     fish_add_path -p $HOME/bin
     fish_add_path -p $HOME/.local/bin
     fish_add_path -a $HOME/adb-fastboot/platform-tools
-    fish_add_path -a '/opt/texlive/2022/bin/x86_64-linux'
+    fish_add_path -a $HOME/git/vercors/bin/
+    fish_add_path -a '/opt/texlive/2023/bin/x86_64-linux'
     fish_add_path $HOME/.cargo/bin
 
     # Start WM

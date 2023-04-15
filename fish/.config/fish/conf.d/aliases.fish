@@ -2,6 +2,8 @@
 
 if not set -q fish_initialized
 
+    alias smplayer='flatpak run --env=QT_QPA_PLATFORM= info.smplayer.SMPlayer'
+
     # clear including scrollback
     alias cls='printf "\033c"'
 

@@ -11,10 +11,10 @@
 #  xupdate-check -m
 #
 # Example 3: Show updates for all packages
-#  xupdate ".*"
+#  xupdate-check ".*"
 #
 # Example 4: Show updates for firefox and fwupd
-#   xupdate firefox fwupd
+#   xupdate-check firefox fwupd
 #
 # Example 5: Show updates for python packages ending with n
 #   xupdate-check "python.*n"
@@ -33,10 +33,11 @@ last_modified_remote(){
 }
 
 check_cache_timestamp(){
-    timestamp_remote=$(last_modified_remote)
+    timestamp_remote="$(last_modified_remote)"
     timestamp_cache=$(cat "${XUC_CACHE}/timestamp")
     if [ ! "$timestamp_remote" =  "$timestamp_cache" ]; then
         echo "xupdate-check: cache outdated, please run xupdate-check -S." 1>&2
+        exit 1
     fi
 }
 
@@ -47,9 +48,14 @@ check_updates(){
 
 
 update_cache(){
+    timestamp_remote=$(last_modified_remote)
+    if [ "$timestamp_remote" = "" ]; then
+        echo "cound not connect to server" 1>&2
+        exit 1
+    fi
     # TODO: check rsync options
     rsync -rPz "${XUC_REMOTE_RSYNC}" "${XUC_CACHE}" --delete
-    last_modified_remote > "${XUC_CACHE}/timestamp"
+    echo "$timestamp_remote" > "${XUC_CACHE}/timestamp"
 }
 
 pkgs=""

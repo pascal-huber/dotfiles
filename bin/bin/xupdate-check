@@ -37,7 +37,6 @@ check_cache_timestamp(){
     timestamp_cache=$(cat "${XUC_CACHE}/timestamp")
     if [ ! "$timestamp_remote" =  "$timestamp_cache" ]; then
         echo "xupdate-check: cache outdated, please run xupdate-check -S." 1>&2
-        exit 1
     fi
 }
 

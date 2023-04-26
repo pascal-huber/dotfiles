@@ -1,39 +1,69 @@
-! Zenburn color-scheme
-URxvt.background              :#202020
-URxvt.foreground              :#dcdccc
+! ! Contrasty Darkness
+! ! https://www.markusweimar.de/en/color-schemes/
+! *background: #000000
+! *foreground: #ffffff
+! ! black
+! *color0:  #000000
+! *color8:  #000000
+! ! red
+! *color1:  #ff7c4d
+! *color9:  #ff7c4d
+! ! green
+! *color2:  #22ff00
+! *color10: #22ff00
+! ! yellow
+! *color3:  #ffcc00
+! *color11: #ffcc00
+! ! blue
+! *color4:  #1a66ff
+! *color12: #1a66ff
+! ! magenta
+! *color5:  #ff61df
+! *color13: #ff61df
+! ! cyan
+! *color6:  #00ffff
+! *color14: #00ffff
+! ! white
+! *color7:  #888888
 
-! black + red
-!URxvt.color0                 :#3f3f3f
-URxvt.color0                  :#1f1f1f
-URxvt.color1                  :#705050
 
-! green + yellow
-URxvt.color2                  :#60b48a
-URxvt.color3                  :#dfaf8f
 
-! blue + purple
-URxvt.color4                  :#506070
-URxvt.color5                  :#dc8cc3
+! ! Zenburn color-scheme
+! URxvt.background              :#202020
+! URxvt.foreground              :#dcdccc
 
-! cyan + white
-URxvt.color6                  :#8cd0d3
-URxvt.color7                  :#dcdccc
+! ! black + red
+! !URxvt.color0                 :#3f3f3f
+! URxvt.color0                  :#1f1f1f
+! URxvt.color1                  :#705050
 
-! bright-black + bright-red
-URxvt.color8                  :#709080
-URxvt.color9                  :#ffa3a3
+! ! green + yellow
+! URxvt.color2                  :#60b48a
+! URxvt.color3                  :#dfaf8f
 
-! bright-green + bright-yellow
-URxvt.color10                 :#c3ff9f
-URxvt.color11                 :#f0dfaf
+! ! blue + purple
+! URxvt.color4                  :#506070
+! URxvt.color5                  :#dc8cc3
 
-! bright-blue + bright-purple
-URxvt.color12                 :#94bff3
-URxvt.color13                 :#ec93d3
+! ! cyan + white
+! URxvt.color6                  :#8cd0d3
+! URxvt.color7                  :#dcdccc
 
-! bright-cyan + bright-white
-URxvt.color14                 :#93e0e3
-URxvt.color15                 :#ffffff
+! ! bright-black + bright-red
+! URxvt.color8                  :#709080
+! URxvt.color9                  :#ffa3a3
+
+! ! bright-green + bright-yellow
+! URxvt.color10                 :#c3ff9f
+! URxvt.color11                 :#f0dfaf
+
+! ! bright-blue + bright-purple
+! URxvt.color12                 :#94bff3
+! URxvt.color13                 :#ec93d3
+
+! ! bright-cyan + bright-white
+! URxvt.color14                 :#93e0e3
+! URxvt.color15                 :#ffffff
 
 ! ! -----------------------------------------------------------------------------
 ! ! Gruvbox terminal sexy

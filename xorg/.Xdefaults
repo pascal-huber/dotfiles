@@ -19,8 +19,6 @@ st.font: Iosevka Term Slab:size=12:bold
 
 Xft.dpi: 141
 Xcursor.size: 40
-! Xcursor.theme: redglass
-! Xcursor.theme: Vanilla-DMZ
 Xcursor.theme: Bibata-Original-Amber
 
 !-------------------------------------------------------------------------------

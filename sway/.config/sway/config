@@ -1,4 +1,9 @@
 
+# start the bar
+bar {
+     swaybar_command waybar
+}
+
 # Font
 font pango:Iosevka Term Slab bold 14
 

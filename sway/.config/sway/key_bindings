@@ -19,11 +19,11 @@ bindsym $super+$alt+m exec sway-keepassxc
 # FIXME: rofi/rofi-wayland doesn't show flatpaks unless run with 'bash -c'
 #   even though $XDG_DATA_DIRS is set
 # bindsym $super+space exec notify-send "$XDG_DATA_DIRS"
-bindsym $super+space exec bash -c "rofi-wayland -show combi -modi combi -combi-modi run,drun -sort true -levenshtein-sort"
-# bindsym $super+space exec wofi --show drun -i -I
+bindsym $super+space exec bash -c "rofi -show combi -modi combi -combi-modi run,drun -sort true -levenshtein-sort"
+# bindsym $super+space exec wofi --show run -i -I
 
 # TODO: package the wayland for of rofi https://github.com/lbonn/rofi
-bindsym $super+comma exec rofi-wayland -show window
+bindsym $super+comma exec rofi -show window
 
 
 # media buttons
@@ -43,7 +43,7 @@ bindsym $super+Shift+l exec xscreensaver-command -lock
 bindsym $super+e kill
 bindsym $super+Shift+e reload
 bindsym $super+Shift+r restart
-bindsym $super+Shift+q exec "i3-nagbar -t warning -m 'exit?' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $super+Shift+q exec "swaynag -t warning -m 'exit?' -b 'Yes, exit sway' 'swaymsg exit'"
 
 # Focus Hierarchy
 bindsym $super+f focus parent

@@ -7,3 +7,15 @@ for_window [app_id="org.keepassxc.KeePassXC"] floating enable, resize set 1280 1
 for_window [app_id="pavucontrol"] floating enable, resize set 1000 1350
 for_window [class="pavucontrol-qt"] floating enable, resize set 1200 1000
 for_window [class="Xsane"] floating enable
+
+
+# Zoom
+for_window [class="zoom"] floating enable, border none
+# https://www.reddit.com/r/swaywm/comments/l9asbc/zoom_on_sway_what_settings_do_you_use/
+# For pop up notification windows that don't use notifications api
+# for_window [app_id="zoom" title="^zoom$"] border none, floating enable
+# For specific Zoom windows
+# for_window [app_id="zoom" title="^(Zoom|About)$"] border pixel, floating enable
+# for_window [app_id="zoom" title="Settings"] floating enable, floating_minimum_size 960 x 700
+# Open Zoom Meeting windows on a new workspace (a bit hacky)
+# for_window [app_id="zoom" title="Zoom Meeting(.*)?"] workspace next_on_output --create, move container to workspace current, floating disable, inhibit_idle open

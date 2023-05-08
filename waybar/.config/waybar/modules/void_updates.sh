@@ -30,10 +30,12 @@ fi
 
 # private templates
 UPDATE_LOG_FILE="https://raw.githubusercontent.com/pascal-huber/void-packages/gh-pages/updates.txt"
-tooltip="$(curl $UPDATE_LOG_FILE 2>/dev/null)"
+tooltip=""
+size="$(curl -I $UPDATE_LOG_FILE 2>/dev/null | grep "content-length" | cut -d":" -f2 | tr -dc '[:alnum:]')"
 if [ "$?" != "0" ]; then
    power_symbol="${power_symbol}?"
-else
+elif [ "$size" != "0" ]; then
+   tooltip="$(curl $UPDATE_LOG_FILE 2>/dev/null)"
    power_symbol="${power_symbol}T"
 fi
 

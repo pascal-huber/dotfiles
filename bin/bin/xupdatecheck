@@ -1,10 +1,10 @@
 #!/bin/sh
-# xupdate-check -S | -l | -m | pattern... - Show update-check info for packages
+# xupdatecheck -S | -l | -m | pattern... - Show update-check info for packages
 #    -S Sync with the official update-check results
 #    -m Show only manually installed packages
 
 : ${XDG_CACHE_HOME:=~/.cache}
-: ${XUC_CACHE:=$XDG_CACHE_HOME/xupdate-check}
+: ${XUC_CACHE:=$XDG_CACHE_HOME/xupdatecheck}
 : ${XUC_REMOTE:='repo-default.voidlinux.org'}
 
 XUC_REMOTE_RSYNC="rsync://${XUC_REMOTE}/voidlinux/void-updates/void-updates"
@@ -28,7 +28,7 @@ check_cache_timestamp() {
 	[ "$timestamp_remote" != "" ] || return
 	timestamp_cache=$(cat "${XUC_CACHE}/timestamp")
 	if ! [ "$timestamp_remote" = "$timestamp_cache" ]; then
-		echo "xupdate-check: cache outdated, please run xupdate-check -S." 1>&2
+		echo "xupdatecheck: cache outdated, please run xupdatecheck -S." 1>&2
 	fi
 }
 
@@ -62,7 +62,7 @@ case "$1" in
 esac
 
 if [ ! -d "${XUC_CACHE}" ]; then
-	echo "xupdate-check: cache inexistent, please run xupdate-check -S." 1>&2
+	echo "xupdatecheck: cache inexistent, please run xupdatecheck -S." 1>&2
 	exit 3
 fi
 

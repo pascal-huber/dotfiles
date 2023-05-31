@@ -7,11 +7,10 @@ exec dunst
 # reload xrdb config on start and reload
 exec_always xrdb ~/.Xdefaults && xrdb -merge ~/.Xresources-colors-dark
 
-# TODO: dbus-update-activation-environment necessary for screen sharing and pipewire
+# TODO: is dbus-update-activation-environment necessary for screen sharing and pipewire?
 exec dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
-# TODO: is this really "the" way to start pipewire?
-# TODO: do I need wireplumber?
+# pipewire
 exec pipewire
 exec pipewire-pulse
 

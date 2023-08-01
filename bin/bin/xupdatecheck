@@ -1,5 +1,5 @@
 #!/bin/sh
-# xupdatecheck -S | -l | -m | pattern... - Show update-check info for packages
+# xupdatecheck -S | -l | -m | -x | pattern... - Show update-check info for packages
 #    -S Sync with the official update-check results
 #    -l Include only locally installed packages
 #    -m Include only manually installed packages
@@ -48,30 +48,29 @@ update_check() {
 pkgs=""
 include_deps=false
 
-while [ -n "$1" ]; do
-	case $1 in
-	"-S")
+while getopts Smlx arg; do
+	case $arg in
+	"S")
 		update_cache
 		exit
 		;;
-	"-m")
+	"m")
 		pkgs="$pkgs $(xbps-query -m | sed 's#\(.*\)-[^-]*#\1#g')"
-		shift
 		;;
-	"-l")
+	"l")
 		pkgs=$(xbps-query -l | cut -d" " -f2 | sed 's#\(.*\)-[^-]*#\1#g')
-		shift
 		;;
-	"-x")
+	"x")
 		include_deps=true
-		shift
 		;;
 	*)
-		pkgs="$pkgs $1"
-		shift
+		echo "Usage: xupdatecheck -S | -l | -m | -x | pattern..." >&2
+		exit 1
 		;;
 	esac
 done
+
+pkgs="$pkgs $*"
 
 if [ ! -d "${XUC_CACHE}" ]; then
 	echo "xupdatecheck: cache inexistent, please run xupdatecheck -S." 1>&2
@@ -79,13 +78,12 @@ if [ ! -d "${XUC_CACHE}" ]; then
 fi
 
 if $include_deps; then
-	pkgs_all=""
+	all_pgks=""
 	for pkg in $pkgs; do
 		deps=$(xbps-query -x "$pkg" | cut -d">" -f1)
-		# TODO: Decide wheter or not to filter redundant entries?
-		pkgs_all=$(echo "$pkgs_all $pkg $deps" | uniq)
+		all_pgks=$(echo "$all_pgks $pkg $deps" | uniq)
 	done
-	pkgs="$pkgs_all"
+	pkgs="$all_pgks"
 fi
 
 if [ "$pkgs" = "" ]; then

@@ -4,7 +4,7 @@
     "tooltip": false
   },
   "custom/time": {
-    "format": "<span font='DejaVuSansMono Nerd Font 14' rise='0'></span> {}",
+    "format": " <span font='DejaVuSansMono Nerd Font 14' rise='0'></span> {}",
     "interval": 5,
     "exec": "date '+%H:%M'",
     "tooltip": false
@@ -23,9 +23,30 @@
     "tooltip": false
   },
   "custom/document_inbox": {
-    "format": "<span font='DejaVuSansMono Nerd Font 11' rise='1550'></span> {}",
+    "format": "<span font='DejaVuSansMono Nerd Font 11' rise='1550'>{icon}</span> {}",
+    "format-icons": [""],
     "interval": 10,
     "exec": "ls ~/cloud/personal-documents/inbox | wc -l",
+    "tooltip": false
+  },
+  "custom/cpuicon": {
+    "format": " ",
+    "tooltip": false
+  },
+  "custom/cpu": {
+    "format": "{}",
+    "interval": 4,
+    "exec": "~/.config/waybar/modules/cpu.sh",
+    "tooltip": false
+  },
+  "custom/gpuicon": {
+    "format": " ",
+    "tooltip": false
+  },
+  "custom/gpu": {
+    "format": "{}",
+    "interval": 4,
+    "exec": "~/.config/waybar/modules/gpu.sh",
     "tooltip": false
   },
   "custom/cloud_backup": {
@@ -85,9 +106,6 @@
       "8": "",
       "9": "",
       "10": "",
-      "urgent": "",
-      "focused": "",
-      "default": ""
     }
   },
   "battery": {
@@ -126,6 +144,10 @@
     "format": "<span font='DejaVuSansMono Nerd Font 16'></span> {}",
     "interval": 5,
     "exec": "~/.config/waybar/modules/zfs_memory.sh",
+    "tooltip": false
+  },
+  "custom/diskicon": {
+    "format": " ",
     "tooltip": false
   },
   "disk": {

@@ -1,8 +1,13 @@
 
+# output
+# output DP-2 resolution 3440x1440@144Hz position 0,0
+# NOTE: kanshi takes care of the display setup and waybar config
+exec kanshi
+
 # start the bar
-bar {
-     swaybar_command waybar
-}
+#bar {
+#     swaybar_command waybar
+#}
 
 # Font
 font pango:Iosevka Term Slab bold 14

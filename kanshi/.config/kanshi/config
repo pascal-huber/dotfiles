@@ -1,0 +1,14 @@
+
+profile work {
+	output DP-2 power on enable mode 3440x1440@144Hz
+	output HDMI-A-1 power off disable
+	exec pkill gammastep; pkill gammastep-indicator; gammastep-indicator
+	exec pkill waybar; waybar -c ~/.config/waybar/config-work
+}
+
+profile tv {
+	output DP-2 power off disable
+	output HDMI-A-1 power on enable mode 1920x1080@60Hz
+	exec pkill waybar; waybar -c ~/.config/waybar/config
+	exec pkill gammastep-indicator
+}

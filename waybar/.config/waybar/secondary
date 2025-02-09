@@ -2,16 +2,11 @@
 {
   "layer": "bottom",
   "position": "bottom",
-  "output": "DP-2",
+  "output": "DP-1xxx",
   "height": 30,
   "margin-right": 0,
   "margin-bottom": 0,
-  "modules-left": ["sway/workspaces", "sway/mode"],
-  "modules-right": [
-    "custom/date",
-    "custom/time",
-    "custom/separator",
-  ],
+  "modules-center": ["sway/workspaces", "sway/mode"],
   "include": [
     "~/.config/waybar/modules.json",
   ],
@@ -29,25 +24,17 @@
   "include": [
     "~/.config/waybar/modules.json",
   ],
-  "modules-left": [
-    "sway/workspaces",
-    "sway/mode"
-  ],
+  "modules-left": ["sway/workspaces", "sway/mode"],
   "modules-right": [
-    "custom/cpuicon",
-    "custom/cpu",
-    "custom/separator",
-    "custom/gpuicon",
-    "custom/gpu",
-    "custom/separator",
     "custom/memory",
     "custom/zfs_memory",
     "custom/separator",
-    "custom/diskicon",
     "disk",
     "custom/separator",
     "pulseaudio",
     "backlight",
+    "custom/separator",
+    "network",
     "custom/separator",
     "custom/cloud_backup",
     "custom/space",

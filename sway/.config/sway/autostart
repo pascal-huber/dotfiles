@@ -1,6 +1,6 @@
 
 # without appindicator
-exec gammastep -b 0.8:0.8 -t 4500:3500 -g 0.8 -l 47.3769:8.5417 -r
+exec gammastep-indicator -b 0.9:0.9 -t 4500:3500 -g 0.8 -l 47.3769:8.5417 -r
 exec emacs --daemon
 exec dunst
 
@@ -18,4 +18,5 @@ exec pipewire-pulse
 exec sleep 3 && nextcloud --background
 exec sleep 3 && blueman-applet
 exec sleep 3 && antimicrox --hidden
-exec sleep 3 && cmst
+exec sleep 6 && nm-applet
+# exec sleep 3 && cmst

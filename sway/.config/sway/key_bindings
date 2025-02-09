@@ -10,7 +10,7 @@ set $alt Mod1
 
 # applications
 bindsym $super+Return exec alacritty
-bindsym $super+x exec brave-browser-stable
+bindsym $super+x exec chromium
 bindsym $super+v exec emacsclient -nc
 bindsym $super+c exec firefox
 bindsym $super+b exec sway-pavucontrol
@@ -80,8 +80,9 @@ bindsym $super+o layout splith
 bindsym $super+p layout splitv
 
 # Fullscreen and Floating
-bindsym $super+$alt+space floating toggle
 bindsym $super+t fullscreen toggle
+bindsym $super+$alt+space floating toggle
+bindsym $super+$alt+comma focus mode_toggle
 
 # Split
 bindsym $super+n split v

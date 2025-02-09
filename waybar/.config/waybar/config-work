@@ -2,7 +2,7 @@
 {
   "layer": "bottom",
   "position": "bottom",
-  "output": "DP-2",
+  "output": "HDMI-A-1",
   "height": 30,
   "margin-right": 0,
   "margin-bottom": 0,
@@ -19,7 +19,7 @@
 {
   "layer": "bottom",
   "position": "bottom",
-  "output": "HDMI-A-1",
+  "output": "DP-2",
   "height": 30,
   "margin-right": 0,
   "margin-bottom": 0,

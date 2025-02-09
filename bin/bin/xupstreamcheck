@@ -1,12 +1,12 @@
 #!/bin/sh
-# xupdatecheck -S | -l | -m | -x | pattern... - Show update-check info for packages
+# xupstreamcheck -S | -l | -m | -x | pattern... - Show update-check info for packages
 #    -S Sync with the official update-check results
 #    -l Include only locally installed packages
 #    -m Include only manually installed packages
 #    -x Additionally include direct dependencies of the packages
 
 : ${XDG_CACHE_HOME:=~/.cache}
-: ${XUC_CACHE:=$XDG_CACHE_HOME/xupdatecheck}
+: ${XUC_CACHE:=$XDG_CACHE_HOME/xupstreamcheck}
 : ${XUC_REMOTE:='repo-default.voidlinux.org'}
 
 XUC_REMOTE_RSYNC="rsync://${XUC_REMOTE}/voidlinux/void-updates/void-updates"
@@ -15,7 +15,7 @@ XUC_REMOTE_HTTPS="https://${XUC_REMOTE}/void-updates/void-updates"
 last_modified_remote() {
 	line=$(curl -s -v -X HEAD "${XUC_REMOTE_HTTPS}/_log.txt" 2>&1 | grep last-modified)
 	if [ "$line" = "" ]; then
-		echo "xupdatecheck: could not fetch remote timestamp" 1>&2
+		echo "xupstreamcheck: could not fetch remote timestamp" 1>&2
 	fi
 	echo "${line#*:}"
 }
@@ -25,19 +25,20 @@ check_cache_timestamp() {
 	[ "$timestamp_remote" != "" ] || return
 	timestamp_cache=$(cat "${XUC_CACHE}/timestamp")
 	if ! [ "$timestamp_remote" = "$timestamp_cache" ]; then
-		echo "xupdatecheck: cache outdated, please run xupdatecheck -S." 1>&2
+		echo "xupstreamcheck: cache outdated, please run xupstreamcheck -S." 1>&2
 	fi
 }
 
 update_cache() {
 	if ! command -v rsync >/dev/null 2>&1; then
-		echo "xupdatecheck: rsync command not found." 1>&2
+		echo "xupstreamcheck: rsync command not found." 1>&2
 		exit 2
 	fi
 	timestamp_remote=$(last_modified_remote)
 	set -e
 	rsync -rPz "${XUC_REMOTE_RSYNC}" "${XUC_CACHE}" --delete >/dev/null 2>&1
 	echo "$timestamp_remote" >"${XUC_CACHE}/timestamp"
+	echo "xupstreamcheck updated"
 }
 
 update_check() {
@@ -64,16 +65,18 @@ while getopts Smlx arg; do
 		include_deps=true
 		;;
 	*)
-		echo "Usage: xupdatecheck -S | -l | -m | -x | pattern..." >&2
+		echo "Usage: xupstreamcheck -S | -l | -m | -x | pattern..." >&2
 		exit 1
 		;;
 	esac
 done
 
-pkgs="$pkgs $*"
+if [ "$*" != "" ]; then
+	pkgs="$pkgs $*"
+fi
 
 if [ ! -d "${XUC_CACHE}" ]; then
-	echo "xupdatecheck: cache inexistent, please run xupdatecheck -S." 1>&2
+	echo "xupstreamcheck: cache inexistent, please run xupstreamcheck -S." 1>&2
 	exit 3
 fi
 

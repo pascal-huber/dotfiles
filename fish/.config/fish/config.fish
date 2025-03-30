@@ -1,3 +1,7 @@
+# TODO: remove this
+set -gx ANSIBLE_FORCE_COLOR 1
+
+
 
 if status --is-login
 
@@ -11,6 +15,7 @@ if status --is-login
     # Other environment variables
     set -gx CARGO_HOME $HOME/.cargo
     set -gx PAGER "less -S"
+    set -gx ANSIBLE_FORCE_COLOR 1
 
     # don't install plugins here but in a seperate folder
     set -gx fisher_path $XDG_DATA_HOME/fisher
@@ -20,10 +25,11 @@ if status --is-login
     set -U fish_user_paths
     fish_add_path -p $HOME/git/rofi-find-files
     fish_add_path -p $HOME/bin
+    fish_add_path -p $HOME/go/bin
     fish_add_path -p $HOME/.local/bin
     fish_add_path -a $HOME/adb-fastboot/platform-tools
     fish_add_path -a $HOME/git/vercors/bin/
-    fish_add_path -a '/opt/texlive/2023/bin/x86_64-linux'
+    fish_add_path -a '/opt/texlive/2024/bin/x86_64-linux'
     fish_add_path $HOME/.cargo/bin
 
     # Start WM
@@ -38,7 +44,7 @@ if status --is-login
 
         # TODO: check scaling chromium flag for sway
         # set -x CHROMIUM_FLAGS "--force-device-scale-factor=1"
-        set -x CHROMIUM_FLAGS "--enable-features=UseOzonePlatform --ozone-platform=wayland"
+	# set -x CHROMIUM_FLAGS "--enable-features=UseOzonePlatform --ozone-platform=wayland"
 
         # TODO: Do I need these?
         # set -x QT_QPA_PLATFORM wayland

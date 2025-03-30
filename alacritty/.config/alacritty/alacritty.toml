@@ -1,0 +1,10 @@
+general.import = ["/home/pascal/git/alacritty-theme/themes/tender.yaml"]
+
+[font]
+size = 18.0
+
+[keyboard]
+bindings = [
+# fix control-space
+{ key = "Space", mods = "Control", chars = "\u0000" }
+]

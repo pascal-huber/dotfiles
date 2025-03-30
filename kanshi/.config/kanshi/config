@@ -1,14 +1,28 @@
-
-profile work {
-	output DP-2 power on enable mode 3440x1440@144Hz
-	output HDMI-A-1 power off disable
+profile both {
+	output DP-2 power on enable mode 3440x1440@144Hz scale 1.0
+	output HDMI-A-1 power on enable mode 1920x1080@120Hz
 	exec pkill gammastep; pkill gammastep-indicator; gammastep-indicator
 	exec pkill waybar; waybar -c ~/.config/waybar/config-work
 }
 
+profile work {
+	output HDMI-A-1 power off disable
+	output DP-2 power on enable mode 3440x1440@144Hz scale 1.0
+	exec pkill gammastep; pkill gammastep-indicator; gammastep-indicator
+	exec pkill waybar; waybar -c ~/.config/waybar/config-work
+}
+
+profile tv4k {
+	output DP-2 power off disable
+	output HDMI-A-1 power on enable mode 3840x2160@60Hz scale 2.0
+	exec pkill waybar; waybar -c ~/.config/waybar/config;
+	exec pkill gammastep-indicator;
+}
+
 profile tv {
 	output DP-2 power off disable
-	output HDMI-A-1 power on enable mode 1920x1080@60Hz
+	output HDMI-A-1 power on enable mode 1920x1080@120Hz scale 1.0
 	exec pkill waybar; waybar -c ~/.config/waybar/config
 	exec pkill gammastep-indicator
 }
+

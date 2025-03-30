@@ -16,8 +16,8 @@ eval "$(dbus-launch --auto-syntax --exit-with-session)"
 
 # Keyring Unlocking (in combination with PAM)
 # source: https://wiki.archlinux.org/title/GNOME/Keyring#xinitrc
-eval $(/usr/bin/gnome-keyring-daemon --start | string split "=")
-export SSH_AUTH_SOCK
+# eval $(/usr/bin/gnome-keyring-daemon --start | string split "=")
+# export SSH_AUTH_SOCK
 
 # SSH Agent
 eval $(ssh-agent)
@@ -33,34 +33,14 @@ update-desktop-database $HOME/.local/share/applications
 xbindkeys &
 (xrdb ~/.Xdefaults && xrdb -merge ~/.Xresources-colors-dark) &
 
-# Display settings
-number_of_screens="`xrandr -q | grep ' connected' | wc -l`"
-if [ "$number_of_screens" -gt 1 ]; then
-  dohome &
-else
-  unhome &
-fi
-
-# Applications
-compton -b &
-emacs --daemon &
-nm-applet &
-blueman-applet &
-redshift-gtk &
-ThreemQT &
-antimicrox --hidden &
-(pipewire & sleep 1 && pipewire-pulse) &
-
 # elogind sends a dbus message and xss-lock will fire
 # xset -dpms; xset s off # no automatic locking
 # xss-lock -- i3lock -c 000000 &
 
-# Applications with delay
-sleep 8 && nextcloud &
-
 # Start Window Manager
 ttyPath=$(tty)
 case $ttyPath in
+  *6*     )   exec dbus-run-session icewm-session;;
   *3*     )   exec herbstluftwm;;
   *4*     )   exec start-lumina-desktop;;
   *5*     )   exec startxfce4;;

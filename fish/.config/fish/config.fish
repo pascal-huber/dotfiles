@@ -77,7 +77,8 @@ if status is-interactive
     function fish_user_key_bindings
 
         # Ctrl-space to complete
-        bind -k nul 'forward-char'
+	# FIXME:
+	bind ctrl-space 'forward-char'
 
     end
 end

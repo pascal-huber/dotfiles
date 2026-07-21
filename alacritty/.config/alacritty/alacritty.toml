@@ -1,7 +1,7 @@
-general.import = ["/home/pascal/git/alacritty-theme/themes/tender.yaml"]
+# general.import = ["/home/pascal/git/alacritty-theme/themes/tender.yaml"]
 
 [font]
-size = 18.0
+size = 12.0
 
 [keyboard]
 bindings = [

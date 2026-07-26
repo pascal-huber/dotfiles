@@ -1,7 +1,8 @@
-# TODO: remove this
-set -gx ANSIBLE_FORCE_COLOR 1
 
 if status --is-login
+    # fish prompt fix
+    # https://github.com/IlanCosman/tide/issues/622
+    set -gx tide_character_vi_icon_default "❯"
 
     # XDG Environment Variables
     # store data is here:

@@ -25,13 +25,6 @@ if status --is-login
     set -gx EDITOR nvim
     set -gx PAGER "less -S"
 
-    # don't install plugins here but in a seperate folder
-    # FIXME: this doesn't work, right? fishers stores its crap in .config/fish/...
-    # set -gx fisher_path $XDG_DATA_HOME/fisher
-    set -g fisher_path ~/.local/share/fisher
-    set fish_function_path $fisher_path/functions $fish_function_path
-    set fish_complete_path $fisher_path/completions $fish_complete_path
-
     # PATH
     set -U fish_user_paths
     fish_add_path -p $HOME/bin
@@ -63,5 +56,11 @@ if status is-interactive
         # Ctrl-space to for autocomplete (alt-
         bind ctrl-space forward-char
     end
+
+    # Set fisher path
+    # FIXME: set fisher_path not just for interactive shell if possible
+    set -gx fisher_path $XDG_DATA_HOME/fisher
+    set fish_function_path $fisher_path/functions $fish_function_path
+    set fish_complete_path $fisher_path/completions $fish_complete_path
 
 end

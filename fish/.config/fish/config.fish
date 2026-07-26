@@ -31,13 +31,14 @@ if status --is-login
     fish_add_path -p $HOME/go/bin
     fish_add_path -p $HOME/.local/bin
     fish_add_path -p $HOME/.local/share/flatpak/exports/bin
-    fish_add_path -a $HOME/adb-fastboot/platform-tools
-    fish_add_path -a $HOME/git/vercors/bin/
     fish_add_path -a $HOME/.cargo/bin
     fish_add_path -a /var/lib/flatpak/exports/bin
 
     # Never show fish greeting
     set -U fish_greeting
+
+    # set fisher_path
+    set -gx fisher_path $XDG_DATA_HOME/fisher
 
     # Start WM
     if test -z "$DISPLAY" && test $XDG_VTNR = 2
@@ -56,11 +57,5 @@ if status is-interactive
         # Ctrl-space to for autocomplete (alt-
         bind ctrl-space forward-char
     end
-
-    # Set fisher path
-    # FIXME: set fisher_path not just for interactive shell if possible
-    set -gx fisher_path $XDG_DATA_HOME/fisher
-    set fish_function_path $fisher_path/functions $fish_function_path
-    set fish_complete_path $fisher_path/completions $fish_complete_path
 
 end

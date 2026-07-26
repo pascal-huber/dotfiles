@@ -14,11 +14,10 @@ if not set -q fish_initialized
     abbr -a youtube-mp3 'yt-dlp --extract-audio --audio-format mp3 --audio-quality 0'
     abbr -a youtube-playlist 'youtube-dl --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s"'
 
-    # Git shortcuts
+    # Git shortcuts (customize plugin-git)
     abbr -a gh 'cd (git rev-parse --show-toplevel)'
     abbr -a ga 'git add'
     abbr -a gc 'git commit'
     abbr -a gs 'git status'
-
-    # alias gl="git log --color --pretty=format:'%C(red)%h%C(reset) - %C(bold)%s%C(reset) %C(green)[%cd] %C(blue)[%an]' --date=format:'%d.%m.%y %H:%M'"
+    abbr -a gl "git log --color --pretty=format:'%C(red)%h%C(reset) - %C(bold)%s%C(reset) %C(green)[%cd] %C(blue)[%an]' --date=format:'%d.%m.%y %H:%M'"
 end

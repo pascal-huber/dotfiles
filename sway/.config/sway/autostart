@@ -2,9 +2,7 @@
 # without appindicator
 exec gammastep-indicator -b 0.9:0.9 -t 4500:3500 -g 0.8 -l 47.3769:8.5417 -r
 exec swaync
-
-# reload xrdb config on start and reload
-exec_always xrdb ~/.Xdefaults && xrdb -merge ~/.Xresources-colors-dark
+exec kanshi
 
 # TODO: is dbus-update-activation-environment necessary for screen sharing and pipewire?
 exec dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway

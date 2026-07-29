@@ -1,4 +1,3 @@
-
 if status --is-login
     # fish prompt fix
     # https://github.com/IlanCosman/tide/issues/622
@@ -40,13 +39,6 @@ if status --is-login
 
     # set fisher_path
     set -gx fisher_path $XDG_DATA_HOME/fisher
-
-    # Start WM
-    if test -z "$DISPLAY" && test $XDG_VTNR = 2
-        exec startx
-    else if test -z "$DISPLAY" && test $XDG_VTNR = 1
-        exec dbus-run-session sway
-    end
 end
 
 # Commands to run in interactive sessions (with keyboard & stuff)

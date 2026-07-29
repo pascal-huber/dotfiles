@@ -39,6 +39,9 @@ if status --is-login
 
     # set fisher_path
     set -gx fisher_path $XDG_DATA_HOME/fisher
+
+    # kanshi_host for different configs
+    set -gx KANSHI_HOST (hostname -s)
 end
 
 # Commands to run in interactive sessions (with keyboard & stuff)

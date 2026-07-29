@@ -1,0 +1,24 @@
+profile tv {
+    output HDMI-A-1 enable mode 1920x1080@120Hz position 0,0
+    output DP-2 disable
+    output DP-3 disable
+}
+
+profile tv4k {
+    output HDMI-A-1 enable mode 3840x2160@60Hz position 0,0 scale 2
+    output DP-2 disable
+    output DP-3 disable
+}
+
+profile work {
+    output DP-2 enable mode 3440x1440@144Hz position 0,0
+    output DP-3 enable mode 1920x1080 position 3440,0
+    output HDMI-A-1 disable
+}
+
+profile work270 {
+    output DP-2 enable mode 3440x1440@144Hz position 0,0
+    output DP-3 enable mode 1920x1080 position 3440,0 transform 270
+    output HDMI-A-1 disable
+}
+

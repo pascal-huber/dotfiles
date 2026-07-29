@@ -2,9 +2,9 @@
 # source: https://www.reddit.com/r/swaywm/comments/u3kw7y/hideshow_a_window/
 
 executable="keepassxc"
-app_id="org.keepassxc.KeePassXC"
+app_id=".*\.KeePassXC$"
 
-window=$(swaymsg -t get_tree | jq -r '..|try select(.app_id == "'$app_id'")')
+window=$(swaymsg -t get_tree | jq -r --arg app_id "$app_id" '..|try select(.app_id | test($app_id))')
 
 if [ ! -z "$(echo $window | jq -r .pid)" ]; then
     echo "window with app_id \"$app_id\" exists"
@@ -20,3 +20,4 @@ else
     echo "launching $executable"
     [ -x $(command -v $executable) ] && $executable >/dev/null 2>&1 &
 fi
+

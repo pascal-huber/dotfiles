@@ -106,7 +106,8 @@
     "clock": {
         // "timezone": "America/New_York",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}"
+	"format": "{:%d. %b %H:%M}"
+        //"format-alt": "{:%Y-%m-%d}"
     },
     "cpu": {
         "format": "{usage}% ",
@@ -187,7 +188,7 @@
     },
     "custom/swaync": {
         "tooltip": true,
-        "format": "<span size='16pt'>{icon}</span>",
+        "format": "<span size='16pt'>{icon}</span> ",
         "format-icons": {
             "notification": "󱅫",
             "none": "󰂜",

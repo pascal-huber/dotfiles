@@ -1,14 +1,14 @@
 * {
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: 'Iosevka Term Slab';
-   /* font-family: Iosevka NFM Heavy, Iosevka Term Slab, FontAwesome, Roboto, Helvetica, Arial, sans-serif;*/
+    font-family: 'monospae';
     font-weight: bold;
     font-size: 16px;
 }
 
 window#waybar {
-    background-color: rgba(43, 48, 59, 0.5);
-    border-bottom: 3px solid rgba(100, 114, 125, 0.5);
+    background-color: #333333;
+    /* border-bottom: 3px solid rgba(100, 114, 125, 0.5); */
+    border-bottom: 0px;
     color: #ffffff;
     transition-property: background-color;
     transition-duration: .5s;

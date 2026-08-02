@@ -7,6 +7,9 @@ if not set -q fish_initialized
     abbr -a l ls -lah
     abbr -a lssym 'ls -l (find . -maxdepth 1 -type l -print)'
 
+    # kanshi
+    abbr -a k kanshictl switch
+
     # places
     abbr -a dl cd ~/Downloads
 

@@ -25,6 +25,9 @@ if status --is-login
     set -gx EDITOR nvim
     set -gx PAGER "less -S"
 
+    # wlroots - use Vulkan instead of OpenGL for HDR support
+    set -gx WLR_RENDERER vulkan
+
     # PATH
     set -U fish_user_paths
     fish_add_path -p $HOME/bin

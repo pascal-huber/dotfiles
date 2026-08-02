@@ -10,7 +10,7 @@ set $alt Mod1
 
 # applications
 bindsym $super+Return exec alacritty
-bindsym $super+x exec chromium
+bindsym $super+x exec bash -c "chromium-browser || chromium"
 bindsym $super+v exec emacsclient -nc
 bindsym $super+c exec firefox
 bindsym $super+b exec sway-pavucontrol

@@ -82,7 +82,6 @@
               }
             }
           }
-        validate: python3 -m json.tool %s > /dev/null
       register: policies_file
  
     - name: Notify if Firefox needs restarting to apply new policies

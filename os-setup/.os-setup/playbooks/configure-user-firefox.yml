@@ -1,0 +1,79 @@
+---
+# firefox_hide_tabbar.yml
+#
+# Hides the Firefox tab bar (userChrome.css) for every profile belonging
+# to the user running this playbook, and enables the pref required for
+# custom stylesheets to load.
+#
+# Run with:
+#   ansible-playbook firefox_hide_tabbar.yml
+#
+# (No sudo needed — everything happens under $HOME.)
+
+- name: Hide Firefox tab bar for all local profiles
+  hosts: localhost
+  connection: local
+  gather_facts: true
+
+  vars:
+    firefox_root: "{{ ansible_env.HOME }}/.mozilla/firefox"
+    usercss_content: |
+      /* Hide the tab bar */
+      #TabsToolbar {
+        visibility: collapse !important;
+      }
+
+  tasks:
+    - name: Check Firefox profile root exists
+      ansible.builtin.stat:
+        path: "{{ firefox_root }}"
+      register: ff_root
+
+    - name: Fail if Firefox has never been run for this user
+      ansible.builtin.fail:
+        msg: "No Firefox profile directory found at {{ firefox_root }}. Run Firefox at least once first."
+      when: not ff_root.stat.exists
+
+    - name: Find profile directories (any dir containing prefs.js)
+      ansible.builtin.find:
+        paths: "{{ firefox_root }}"
+        patterns: "prefs.js"
+        recurse: true
+        depth: 2
+        file_type: file
+      register: prefs_files
+
+    - name: Build list of profile directories
+      ansible.builtin.set_fact:
+        profile_dirs: "{{ prefs_files.files | map(attribute='path') | map('dirname') | unique | list }}"
+
+    - name: Show discovered profiles
+      ansible.builtin.debug:
+        msg: "Found profiles: {{ profile_dirs }}"
+
+    - name: Ensure chrome directory exists in each profile
+      ansible.builtin.file:
+        path: "{{ item }}/chrome"
+        state: directory
+        mode: "0755"
+      loop: "{{ profile_dirs }}"
+
+    - name: Write userChrome.css to each profile
+      ansible.builtin.copy:
+        dest: "{{ item }}/chrome/userChrome.css"
+        content: "{{ usercss_content }}"
+        mode: "0644"
+      loop: "{{ profile_dirs }}"
+
+    - name: Enable legacy stylesheet customizations pref (user.js)
+      ansible.builtin.lineinfile:
+        path: "{{ item }}/user.js"
+        create: true
+        mode: "0644"
+        regexp: '^user_pref\("toolkit\.legacyUserProfileCustomizations\.stylesheets"'
+        line: 'user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);'
+      loop: "{{ profile_dirs }}"
+
+    - name: Remind to restart Firefox
+      ansible.builtin.debug:
+        msg: "Done. Fully quit and restart Firefox for the change to take effect."

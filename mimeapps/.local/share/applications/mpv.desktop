@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+Name=mpv Media Player
+GenericName=Multimedia player
+Comment=Play movies and songs
+Icon=mpv
+TryExec=mpv
+Exec=mpv --player-operation-mode=pseudo-gui -- %U
+Terminal=false
+Categories=AudioVideo;Audio;Video;Player;TV;
+StartupWMClass=mpv
+Keywords=mpv;media;player;video;audio;tv;
+

@@ -1,29 +1,27 @@
 [Default Applications]
 
-x-scheme-handler/mailto=emacsclient.desktop
-
-application/pdf=org.gnome.Evince.desktop;emacsclient.desktop
-
+# PDF
+application/pdf=org.gnome.Evince.desktop
 image/vnd.djvu=org.gnome.Evince.desktop
 
+# Mails, Calendar, Contacts
+x-scheme-handler/mailto=thunderbird.desktop
 text/calendar=thunderbird.desktop
 
-text/plain=emacsclient.desktop
-text/x-markdown=emacsclient.desktop
-application/x-shellscript=emacsclient.desktop
-text/x-java=emacsclient.desktop
-inode/x-empty=emacsclient.desktop;leafpad.desktop
-text/x-tex=emacsclient.desktop
-text/x-ruby=emacsclient.desktop
-text/x-python=emacsclient.desktop
-text/x-readme=emacsclient.desktop
-application/x-ruby=emacsclient.desktop
-text/rhtml=emacsclient.desktop
+# Code, Text
+text/plain=nvim.desktop
+text/x-markdown=nvim.desktop
+application/x-shellscript=nvim.desktop
+text/x-java=nvim.desktop
+inode/x-empty=nvim.desktop
+text/x-tex=nvim.desktop
+text/x-ruby=nvim.desktop
+text/x-python=nvim.desktop
+text/x-readme=nvim.desktop
+application/x-ruby=nvim.desktop
+text/rhtml=nvim.desktop
 
-image/png=eom.desktop
-image/jpeg=eom.desktop
-image/x-xcf=gimp.desktop
-
+# World Wide Web
 text/html=firefox.desktop
 x-scheme-handler/http=firefox.desktop
 x-scheme-handler/https=firefox.desktop
@@ -36,15 +34,23 @@ application/xhtml+xml=firefox.desktop
 application/x-extension-xhtml=firefox.desktop
 application/x-extension-xht=firefox.desktop
 
-video/ogg=vlc.desktop
-video/x-msvideo=vlc.desktop
-audio/mpeg=vlc.desktop
-video/quicktime=vlc.desktop
-video/webm=vlc.desktop
-video/x-flv=vlc.desktop
-video/mp4=vlc.desktop
-application/ogg=vlc.desktop
-audio/x-flac=vlc.desktop
-audio/mp4=vlc.desktop
-application/x-flash-video=vlc.desktop
-application/octet-stream=vlc.desktop
+# Images
+image/png=eom.desktop
+image/jpeg=eom.desktop
+image/x-xcf=gimp.desktop
+
+# Audio
+audio/mpeg=mpv.desktop
+audio/x-flac=mpv.desktop
+audio/mp4=mpv.desktop
+
+# Video
+video/ogg=mpv.desktop
+video/x-msvideo=mpv.desktop
+video/quicktime=mpv.desktop
+video/webm=mpv.desktop
+video/x-flv=mpv.desktop
+video/mp4=mpv.desktop
+application/ogg=mpv.desktop
+application/x-flash-video=mpv.desktop
+

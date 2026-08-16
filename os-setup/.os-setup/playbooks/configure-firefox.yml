@@ -1,0 +1,92 @@
+- name: Configure firefox
+  hosts: localhost
+  become: true
+  vars:
+    firefox_policies_dir: /etc/firefox/policies
+    firefox_policies_file: "{{ firefox_policies_dir }}/policies.json"
+  tasks:
+    - name: Ensure /etc/firefox/policies directory exists
+      ansible.builtin.file:
+        path: "{{ firefox_policies_dir }}"
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+ 
+    - name: Deploy policies.json
+      ansible.builtin.copy:
+        dest: "{{ firefox_policies_file }}"
+        owner: root
+        group: root
+        mode: "0644"
+        content: |
+          {
+            "policies": {
+              "Preferences": {
+                "toolkit.legacyUserProfileCustomizations.stylesheets": {
+                  "Value": true,
+                  "Status": "default"
+                },
+                "sidebar.revamp": {
+                  "Value": false,
+                  "Status": "default"
+                },
+                "privacy.donottrackheader.enabled": {
+                  "Value": true,
+                  "Status": "default"
+                }
+              },
+              "Cookies": {
+                "Behavior": "reject-tracker-and-partition-foreign",
+                "BehaviorPrivateBrowsing": "reject-tracker-and-partition-foreign",
+                "Locked": false
+              },
+              "EnableTrackingProtection": {
+                "Value": true,
+                "Locked": false,
+                "Category": "strict",
+                "Cryptomining": true,
+                "Fingerprinting": true,
+                "EmailTracking": true
+              },
+              "SanitizeOnShutdown": {
+                "Cookies": true,
+                "Cache": false,
+                "History": false,
+                "Downloads": false,
+                "FormData": false,
+                "Sessions": false,
+                "SiteSettings": false,
+                "Locked": false
+              },
+              "ExtensionSettings": {
+                "uBlock0@raymondhill.net": {
+                  "installation_mode": "force_installed",
+                  "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
+                },
+                "floccus@handmadeideas.org": {
+                  "installation_mode": "force_installed",
+                  "install_url": "https://addons.mozilla.org/firefox/downloads/latest/floccus/latest.xpi"
+                },
+                "gdpr@cavi.au.dk": {
+                  "installation_mode": "force_installed",
+                  "install_url": "https://addons.mozilla.org/firefox/downloads/latest/consent-o-matic/latest.xpi"
+                },
+                "{c9f848fb-3fb6-4390-9fc1-e4dd4d1c5122}": {
+                  "installation_mode": "force_installed",
+                  "install_url": "https://addons.mozilla.org/firefox/downloads/latest/adsum-notabs/latest.xpi"
+                },
+                "*": {
+                  "installation_mode": "allowed"
+                }
+              }
+            }
+          }
+        validate: python3 -m json.tool %s > /dev/null
+      register: policies_file
+ 
+    - name: Notify if Firefox needs restarting to apply new policies
+      ansible.builtin.debug:
+        msg: "policies.json changed — restart Firefox on this host to apply the new policies."
+      when: policies_file.changed
+

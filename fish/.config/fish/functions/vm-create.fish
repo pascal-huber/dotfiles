@@ -37,12 +37,13 @@ function vm-create --description 'Create a new qemu dev vm'
         $disk
     or return
 
-    sudo virt-install \
+    virt-install \
         --name $name \
         --import \
         --disk $disk,format=qcow2,bus=virtio \
         --vcpus $_flag_vcpus \
         --memory $_flag_memory \
+        --memorybacking access.mode=shared \
         --cpu host-passthrough \
         --os-variant opensusetumbleweed \
         --graphics spice \
@@ -50,10 +51,11 @@ function vm-create --description 'Create a new qemu dev vm'
         --input tablet,bus=usb \
         --input keyboard,bus=usb \
         --channel spicevmc \
-        --network network=default \
+        --filesystem driver.type=virtiofs,source.dir=$HOME/vmshare,target.dir=vmshare \
+        --filesystem driver.type=virtiofs,source.dir=$HOME/git-public,target.dir=git-public \
         --noautoconsole
     or return
 
-    virt-viewer --connect qemu:///system --wait $name &
+    virt-manager --connect qemu:///session --show-domain-console $name
     disown
 end

@@ -1,0 +1,53 @@
+---
+- name: Setup firewalld
+  hosts: localhost
+  become: true
+  vars:
+    firewall_zone: public
+  tasks:
+    - name: Ensure firewalld is installed
+      zypper:
+        name: firewalld
+        state: present
+
+    - name: Ensure firewalld is enabled and running
+      systemd:
+        name: firewalld
+        enabled: true
+        state: started
+
+    - name: Confirm default zone is set to "{{ firewall_zone }}"
+      ansible.posix.firewalld:
+        zone: "{{ firewall_zone }}"
+        state: enabled
+        permanent: true
+        immediate: true
+
+    - name: Allow IGMP (multicast group management) for TV/IPTV
+      ansible.posix.firewalld:
+        rich_rule: >-
+          rule family="ipv4"
+          destination address="224.0.0.0/4"
+          protocol value="igmp" accept
+        zone: "{{ firewall_zone }}"
+        state: enabled
+        permanent: true
+        immediate: true
+ 
+    - name: Allow UDP multicast video stream for Init7 tv7
+      ansible.posix.firewalld:
+        rich_rule: >-
+          rule family="ipv4"
+          source address="77.109.129.0/25"
+          destination address="{{ item }}"
+          port port="5000" protocol="udp" accept
+        zone: "{{ firewall_zone }}"
+        state: enabled
+        permanent: true
+        immediate: true
+      loop:
+        - "233.50.230.0/24"
+
+    - name: Reload firewalld to apply permanent rules
+      ansible.builtin.command: firewall-cmd --reload
+      changed_when: true

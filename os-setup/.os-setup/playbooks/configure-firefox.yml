@@ -1,27 +1,67 @@
-- name: Configure firefox
+# AI generated
+- name: Configure firefox and librewolf
   hosts: localhost
   become: true
   vars:
-    firefox_policies_dir: /etc/firefox/policies
-    firefox_policies_file: "{{ firefox_policies_dir }}/policies.json"
+    browser_targets:
+      - name: Firefox
+        policies_dir: /etc/firefox/policies
+      - name: LibreWolf
+        policies_dir: /etc/librewolf/policies
+    browser_certs:
+      - name: root_ca.crt
+        src: files/root_ca.crt
+      - name: intermediate_ca.crt
+        src: files/intermediate_ca.crt
   tasks:
-    - name: Ensure /etc/firefox/policies directory exists
+    - name: Ensure policies directory exists
       ansible.builtin.file:
-        path: "{{ firefox_policies_dir }}"
+        path: "{{ item.policies_dir }}"
         state: directory
         owner: root
         group: root
         mode: "0755"
- 
+      loop: "{{ browser_targets }}"
+      loop_control:
+        label: "{{ item.name }}"
+
+    - name: Ensure certificates directory exists
+      ansible.builtin.file:
+        path: "{{ item.policies_dir }}/certificates"
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+      loop: "{{ browser_targets }}"
+      loop_control:
+        label: "{{ item.name }}"
+
+    - name: Deploy CA certificates
+      ansible.builtin.copy:
+        src: "{{ item.1.src }}"
+        dest: "{{ item.0.policies_dir }}/certificates/{{ item.1.name }}"
+        owner: root
+        group: root
+        mode: "0644"
+      loop: "{{ browser_targets | product(browser_certs) | list }}"
+      loop_control:
+        label: "{{ item.0.name }} / {{ item.1.name }}"
+
     - name: Deploy policies.json
       ansible.builtin.copy:
-        dest: "{{ firefox_policies_file }}"
+        dest: "{{ item.policies_dir }}/policies.json"
         owner: root
         group: root
         mode: "0644"
         content: |
           {
             "policies": {
+              "Certificates": {
+                "Install": [
+                  "{{ item.policies_dir }}/certificates/root_ca.crt",
+                  "{{ item.policies_dir }}/certificates/intermediate_ca.crt"
+                ]
+              },
               "Preferences": {
                 "toolkit.legacyUserProfileCustomizations.stylesheets": {
                   "Value": true,
@@ -31,8 +71,36 @@
                   "Value": false,
                   "Status": "default"
                 },
+                "browser.toolbars.bookmarks.visibility": {
+                  "Value": "never",
+                  "Status": "locked"
+                },
                 "privacy.donottrackheader.enabled": {
                   "Value": true,
+                  "Status": "default"
+                },
+                "webgl.disabled": {
+                  "Value": false,
+                  "Status": "locked"
+                },
+                "librewolf.webgl.prompt": {
+                  "Value": true,
+                  "Status": "default"
+                },
+                "librewolf.webgl.prompt.hide": {
+                  "Value": false,
+                  "Status": "default"
+                },
+                "webgl.force-enabled": {
+                  "Value": true,
+                  "Status": "default"
+                },
+                "privacy.fingerprintingProtection": {
+                  "Value": true,
+                  "Status": "default"
+                },
+                "privacy.fingerprintingProtection.overrides": {
+                  "Value": "+AllTargets,-JSDateTimeUTC",
                   "Status": "default"
                 }
               },
@@ -76,16 +144,26 @@
                   "installation_mode": "force_installed",
                   "install_url": "https://addons.mozilla.org/firefox/downloads/latest/adsum-notabs/latest.xpi"
                 },
+                "CanvasBlocker@kkapsner.de": {
+                  "installation_mode": "force_installed",
+                  "install_url": "https://addons.mozilla.org/firefox/downloads/latest/canvasblocker/latest.xpi"
+                },
                 "*": {
                   "installation_mode": "allowed"
                 }
               }
             }
           }
-      register: policies_file
- 
-    - name: Notify if Firefox needs restarting to apply new policies
+      loop: "{{ browser_targets }}"
+      loop_control:
+        label: "{{ item.name }}"
+      register: policies_files
+
+    - name: Notify if policies.json changed and browser needs restarting
       ansible.builtin.debug:
-        msg: "policies.json changed — restart Firefox on this host to apply the new policies."
-      when: policies_file.changed
+        msg: "{{ item.item.name }}: policies.json changed — restart {{ item.item.name }} on this host to apply the new policies."
+      loop: "{{ policies_files.results }}"
+      loop_control:
+        label: "{{ item.item.name }}"
+      when: item.changed
 

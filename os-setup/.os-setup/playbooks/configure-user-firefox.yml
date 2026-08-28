@@ -1,51 +1,74 @@
----
+# NOTE: AI generated
 # firefox_hide_tabbar.yml
 #
-# Hides the Firefox tab bar (userChrome.css) for every profile belonging
-# to the user running this playbook, and enables the pref required for
-# custom stylesheets to load.
-#
-# Run with:
-#   ansible-playbook firefox_hide_tabbar.yml
-#
-# (No sudo needed — everything happens under $HOME.)
-
-- name: Hide Firefox tab bar for all local profiles
+# Hides the tab bar (userChrome.css) for every Firefox and/or LibreWolf
+# profile belonging to the user running this playbook, and enables the
+# pref required for custom stylesheets to load.
+---
+- name: Hide tab bar for all local Firefox/LibreWolf profiles
   hosts: localhost
   connection: local
   gather_facts: true
-
   vars:
-    firefox_root: "{{ ansible_env.HOME }}/.mozilla/firefox"
+    browser_roots:
+      - name: Firefox
+        path: "{{ ansible_env.HOME }}/.mozilla/firefox"
+      - name: LibreWolf
+        path: "{{ ansible_env.HOME }}/.config/librewolf/librewolf"
     usercss_content: |
       /* Hide the tab bar */
       #TabsToolbar {
         visibility: collapse !important;
       }
-
   tasks:
-    - name: Check Firefox profile root exists
+    - name: Check which browser profile roots exist
       ansible.builtin.stat:
-        path: "{{ firefox_root }}"
-      register: ff_root
+        path: "{{ item.path }}"
+      register: browser_root_stats
+      loop: "{{ browser_roots }}"
+      loop_control:
+        label: "{{ item.name }}"
 
-    - name: Fail if Firefox has never been run for this user
+    - name: Build list of existing browser roots
+      ansible.builtin.set_fact:
+        existing_browser_roots: "{{ browser_root_stats.results | selectattr('stat.exists') | map(attribute='item') | list }}"
+
+    - name: Fail if neither Firefox nor LibreWolf has ever been run for this user
       ansible.builtin.fail:
-        msg: "No Firefox profile directory found at {{ firefox_root }}. Run Firefox at least once first."
-      when: not ff_root.stat.exists
+        msg: >-
+          No profile directory found at any of:
+          {{ browser_roots | map(attribute='path') | join(', ') }}.
+          Run Firefox and/or LibreWolf at least once first.
+      when: existing_browser_roots | length == 0
+
+    - name: Show which browsers were found
+      ansible.builtin.debug:
+        msg: "Found: {{ existing_browser_roots | map(attribute='name') | join(', ') }}"
 
     - name: Find profile directories (any dir containing prefs.js)
       ansible.builtin.find:
-        paths: "{{ firefox_root }}"
+        paths: "{{ item.path }}"
         patterns: "prefs.js"
         recurse: true
         depth: 2
         file_type: file
-      register: prefs_files
+      register: prefs_files_per_root
+      loop: "{{ existing_browser_roots }}"
+      loop_control:
+        label: "{{ item.name }}"
 
-    - name: Build list of profile directories
+    - name: Build list of profile directories (across both browsers)
       ansible.builtin.set_fact:
-        profile_dirs: "{{ prefs_files.files | map(attribute='path') | map('dirname') | unique | list }}"
+        profile_dirs: >-
+          {{
+            prefs_files_per_root.results
+            | map(attribute='files')
+            | flatten
+            | map(attribute='path')
+            | map('dirname')
+            | unique
+            | list
+          }}
 
     - name: Show discovered profiles
       ansible.builtin.debug:
@@ -65,7 +88,13 @@
         mode: "0644"
       loop: "{{ profile_dirs }}"
 
-    - name: Enable legacy stylesheet customizations pref (user.js)
+    - name: Force-enable userChrome.css loading via user.js
+      # Don't rely on policies.json for this: LibreWolf will read
+      # /etc/firefox/policies/policies.json instead of its own bundled
+      # policy if that file exists (no merging between the two), so
+      # this pref can silently end up unset depending on install
+      # method/version. user.js is read directly by the profile itself,
+      # so it works regardless of that.
       ansible.builtin.lineinfile:
         path: "{{ item }}/user.js"
         create: true
@@ -73,7 +102,31 @@
         regexp: '^user_pref\("toolkit\.legacyUserProfileCustomizations\.stylesheets"'
         line: 'user_pref("toolkit.legacyUserProfileCustomizations.stylesheets", true);'
       loop: "{{ profile_dirs }}"
+ 
+    - name: Force-hide the bookmarks toolbar via user.js
+      # Same reasoning as above: the policies.json "locked" status for
+      # browser.toolbars.bookmarks.visibility isn't reliably winning
+      # against LibreWolf's own config, so set it directly per-profile.
+      ansible.builtin.lineinfile:
+        path: "{{ item }}/user.js"
+        create: true
+        mode: "0644"
+        regexp: '^user_pref\("browser\.toolbars\.bookmarks\.visibility"'
+        line: 'user_pref("browser.toolbars.bookmarks.visibility", "never");'
+      loop: "{{ profile_dirs }}"
 
-    - name: Remind to restart Firefox
+    - name: Deploy librewolf.overrides.cfg
+      ansible.builtin.copy:
+        dest: "{{ ansible_env.HOME }}/.config/librewolf/librewolf/librewolf.overrides.cfg"
+        owner: "{{ ansible_user_id }}"
+        group: "{{ ansible_user_id }}"
+        mode: "0644"
+        content: |
+          defaultPref("privacy.resistFingerprinting", false);
+          defaultPref("privacy.fingerprintingProtection", true);
+          defaultPref("privacy.fingerprintingProtection.overrides", "+AllTargets,-JSDateTimeUTC");
+      tags: librewolf_overrides
+
+    - name: Remind to restart browsers
       ansible.builtin.debug:
-        msg: "Done. Fully quit and restart Firefox for the change to take effect."
+        msg: "Done. Fully quit and restart Firefox/LibreWolf for the change to take effect."

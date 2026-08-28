@@ -25,6 +25,9 @@ if status --is-login
     set -gx EDITOR nvim
     set -gx PAGER "less -S"
 
+    # make ls readable (but still stand out) for world-writable permissions
+    set -gx LS_COLORS="$LS_COLORS:ow=30;103"
+
     # wlroots - use Vulkan instead of OpenGL for HDR support
     set -gx WLR_RENDERER vulkan
 

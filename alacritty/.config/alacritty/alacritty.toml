@@ -1,4 +1,8 @@
-# general.import = ["/home/pascal/git/alacritty-theme/themes/tender.yaml"]
+# NOTE: as of version 0.14 import is inside [general]
+# [general]
+import = [
+  "~/.config/alacritty/themes/gruvbox_darker.toml"
+]
 
 [font]
 size = 12.0

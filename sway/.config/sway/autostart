@@ -7,10 +7,6 @@ exec kanshi
 # TODO: is dbus-update-activation-environment necessary for screen sharing and pipewire?
 exec dbus-update-activation-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
-# pipewire
-exec pipewire
-exec pipewire-pulse
-
 # with appindicator
 exec sleep 3 && nextcloud --background
 exec sleep 3 && blueman-applet

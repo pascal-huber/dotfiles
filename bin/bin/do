@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ -z "${KANSHI_HOST:-}" ]]; then
+    echo "error: KANSHI_HOST is not set" >&2
+    exit 1
+fi
+
+profile="${1:-}"
+if [[ -z "$profile" ]]; then
+    echo "usage: KANSHI_HOST=<host> $0 <profile>" >&2
+    exit 0
+fi
+
+host_script="$HOME/.config/kanshi/hosts/${KANSHI_HOST}.sh"
+if [[ ! -f "$host_script" ]]; then
+    echo "error: no script for host '$KANSHI_HOST' ($host_script)" >&2
+    exit 1
+fi
+
+# shellcheck source=/dev/null
+source "$host_script"
+
+func="profile_${profile}"
+if ! declare -f "$func" >/dev/null; then
+    echo "error: profile '$profile' not defined for host '$KANSHI_HOST'" >&2
+    exit 1
+fi
+
+"$func"
+

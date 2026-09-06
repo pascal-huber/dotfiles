@@ -39,6 +39,7 @@ if status --is-login
     fish_add_path -p $HOME/.local/share/flatpak/exports/bin
     fish_add_path -a $HOME/.cargo/bin
     fish_add_path -a /var/lib/flatpak/exports/bin
+    fish_add_path -p $HOME/.local/share/mise/shims
 
     # Never show fish greeting
     set -U fish_greeting

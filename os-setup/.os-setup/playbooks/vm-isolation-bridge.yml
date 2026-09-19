@@ -1,0 +1,390 @@
+---
+# vm-network-isolation.yml
+#
+# Isolates a QEMU VM's bridge interface so the VM can reach the internet
+# but NOT any RFC1918 / link-local address on the host's LAN. Also runs
+# a dedicated dnsmasq instance on the bridge so guests get DHCP and DNS
+# without needing static addressing.
+#
+# Assumes:
+#   - firewalld is installed and running
+#   - This host is the hypervisor itself (run with become: true)
+#
+# Usage:
+#   ansible-playbook vm-network-isolation.yml
+
+- name: Create bridge without local network access (except dns)
+  hosts: localhost
+  become: true
+  vars:
+    vm_bridge_iface: br-untrusted
+    vm_bridge_addr: "10.99.0.1"
+    vm_bridge_cidr: "10.99.0.0/24"
+    vm_bridge_prefix: 24
+    vm_bridge_netmask: "255.255.255.0"
+
+    # DHCP range handed out to guests on br-untrusted
+    vm_dhcp_range_start: "10.99.0.100"
+    vm_dhcp_range_end: "10.99.0.200"
+    vm_dhcp_lease_time: "12h"
+
+    # Zone dedicated to the VM-facing bridge
+    vm_zone: vm-untrusted
+
+    # Zone that owns your actual internet uplink (check with:
+    # firewall-cmd --get-active-zones). Common defaults: public, FedoraServer
+    uplink_zone: public
+
+    # Private ranges the VM must never reach
+    blocked_ipv4_ranges:
+      - "10.0.0.0/8"
+      - "172.16.0.0/12"
+      - "192.168.0.0/16"
+      - "169.254.0.0/16"
+
+    # LAN DNS server dnsmasq forwards queries to. This is looked up by
+    # the HOST (dnsmasq), not routed through the VM policy, so it does
+    # not need a hole punched in blocked_ipv4_ranges. Set to "" to fall
+    # back to whatever resolver the host itself already uses.
+    lan_dns_server: "192.168.30.102"
+
+    # Path to the setuid helper qemu:///session uses to attach a tap
+    # device to a bridge without running qemu itself as root. Confirm
+    # with `find / -xdev -name qemu-bridge-helper 2>/dev/null` if your
+    # distro installs it somewhere else (e.g. /usr/lib/qemu/... on
+    # Debian/Arch-family hosts).
+    qemu_bridge_helper_path: /usr/libexec/qemu-bridge-helper
+
+    # Local users who run per-user (qemu:///session) VMs and need to be
+    # able to invoke the setuid bridge helper above.
+    session_vm_users:
+      - alice
+      - bob
+
+  tasks:
+    # ------------------------------------------------------------------
+    # Bridge creation
+    # ------------------------------------------------------------------
+
+    - name: Create bridge interface
+      community.general.nmcli:
+        type: bridge
+        conn_name: "{{ vm_bridge_iface }}"
+        ifname: "{{ vm_bridge_iface }}"
+        method4: manual
+        ip4: "{{ vm_bridge_addr }}/{{ vm_bridge_prefix }}"
+        stp: false
+        state: present
+
+    - name: Bring bridge interface up
+      community.general.nmcli:
+        conn_name: "{{ vm_bridge_iface }}"
+        state: up
+
+    # NetworkManager has been observed to silently drop this address
+    # from the live interface (while still reporting the device as up)
+    # after being toggled unmanaged/managed, or after unrelated NM
+    # reconciliation - with no error, no log, nothing to indicate it
+    # happened. `ip addr replace` here is a direct, NM-independent
+    # safety net: idempotent (no error if already correct), and unlike
+    # NM's own address application it never sets NOPREFIXROUTE, so the
+    # kernel always auto-populates the connected/local/broadcast routes
+    # this bridge needs for ARP and routing to work at all. Without
+    # those routes the interface looks fine (UP, address visible in `ip
+    # addr show`) but ARP requests for vm_bridge_addr go unanswered and
+    # guests get "Destination Host Unreachable".
+    - name: Ensure the bridge address is actually applied (NM-independent)
+      ansible.builtin.command: >
+        ip addr replace {{ vm_bridge_addr }}/{{ vm_bridge_prefix }} dev {{ vm_bridge_iface }}
+      changed_when: true
+
+    - name: Verify the connected route exists (fails loudly instead of leaving guests unreachable)
+      ansible.builtin.command: >
+        ip route show {{ vm_bridge_cidr }}
+      register: bridge_route_check
+      changed_when: false
+      failed_when: vm_bridge_iface not in bridge_route_check.stdout
+
+    # NOTE: deliberately NOT setting the bridge "unmanaged" in
+    # NetworkManager. firewalld's NM integration is what keeps this
+    # interface pinned to vm_zone across `firewall-cmd --reload` and
+    # reboots; making it unmanaged breaks that and the interface can
+    # silently fall back to the default zone (no DROP target, no DHCP
+    # service, no rich rules) even though the permanent config still
+    # looks correct. See the "Reassert zone binding" task at the end.
+
+    - name: Disable IPv6 on the bridge
+      ansible.posix.sysctl:
+        name: "net.ipv6.conf.{{ vm_bridge_iface }}.disable_ipv6"
+        value: "1"
+        sysctl_set: true
+        reload: true
+
+    # ------------------------------------------------------------------
+    # Let qemu:///session (unprivileged, per-user VMs) attach guests to
+    # br-untrusted. Session-mode qemu can't create/attach a tap device
+    # itself, so it shells out to a setuid-root helper for that one
+    # privileged step; that helper refuses to run unless (a) the bridge
+    # is explicitly allow-listed and (b) the invoking user can execute
+    # it, which on most distros means membership in the "kvm" group
+    # that owns the setuid binary.
+    # See: https://apiraino.github.io/qemu-bridge-networking/
+    # ------------------------------------------------------------------
+
+    - name: Ensure /etc/qemu directory exists
+      ansible.builtin.file:
+        path: /etc/qemu
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
+
+    - name: Allow br-untrusted in the qemu bridge helper config
+      ansible.builtin.lineinfile:
+        path: /etc/qemu/bridge.conf
+        create: true
+        owner: root
+        group: kvm
+        mode: "0660"
+        regexp: "^allow {{ vm_bridge_iface }}$"
+        line: "allow {{ vm_bridge_iface }}"
+
+    - name: Locate the qemu-bridge-helper binary
+      ansible.builtin.stat:
+        path: "{{ qemu_bridge_helper_path }}"
+      register: bridge_helper_stat
+
+    - name: Fail with guidance if qemu-bridge-helper isn't where expected
+      ansible.builtin.fail:
+        msg: >-
+          qemu-bridge-helper not found at {{ qemu_bridge_helper_path }}.
+          Locate it with `find / -xdev -name qemu-bridge-helper` and set
+          qemu_bridge_helper_path to the real path.
+      when: not bridge_helper_stat.stat.exists
+
+    - name: Setuid the qemu-bridge-helper so session-mode qemu can use it
+      ansible.builtin.file:
+        path: "{{ qemu_bridge_helper_path }}"
+        mode: u+s
+      when: bridge_helper_stat.stat.exists
+
+    - name: Add session-VM users to the kvm group
+      ansible.builtin.user:
+        name: "{{ item }}"
+        groups: kvm
+        append: true
+      loop: "{{ session_vm_users }}"
+      register: kvm_group_add
+
+    - name: Note that changed group membership needs a fresh login
+      ansible.builtin.debug:
+        msg: >-
+          {{ item.item }} was just added to the kvm group - they must
+          log out and back in (or run `newgrp kvm`) before qemu:///session
+          can use br-untrusted.
+      loop: "{{ kvm_group_add.results }}"
+      when: item.changed
+
+    # ------------------------------------------------------------------
+    # IP forwarding
+    # ------------------------------------------------------------------
+
+    - name: Enable IPv4 forwarding
+      ansible.posix.sysctl:
+        name: net.ipv4.ip_forward
+        value: "1"
+        sysctl_set: true
+        state: present
+        reload: true
+
+    # ------------------------------------------------------------------
+    # Dedicated firewalld zone for the VM bridge
+    # ------------------------------------------------------------------
+
+    - name: Create vm-untrusted zone
+      ansible.posix.firewalld:
+        zone: "{{ vm_zone }}"
+        state: present
+        permanent: true
+
+    - name: Bind bridge interface to vm-untrusted zone
+      ansible.posix.firewalld:
+        zone: "{{ vm_zone }}"
+        interface: "{{ vm_bridge_iface }}"
+        state: enabled
+        permanent: true
+      notify: reload firewalld
+
+    - name: Set vm-untrusted zone default target to DROP
+      ansible.posix.firewalld:
+        zone: "{{ vm_zone }}"
+        target: DROP
+        permanent: true
+        state: enabled
+      notify: reload firewalld
+
+    - name: Allow VM to reach its own gateway (DNS + general)
+      ansible.posix.firewalld:
+        zone: "{{ vm_zone }}"
+        rich_rule: >-
+          rule family="ipv4" destination address="{{ vm_bridge_addr }}" accept
+        state: enabled
+        permanent: true
+      notify: reload firewalld
+
+    - name: Allow DHCP requests in vm-untrusted zone
+      # DHCPDISCOVER goes to the broadcast address (255.255.255.255), not
+      # to vm_bridge_addr, so the rich rule above doesn't cover it. The
+      # firewalld built-in "dhcp" service opens udp/67 for exactly this.
+      ansible.posix.firewalld:
+        zone: "{{ vm_zone }}"
+        service: dhcp
+        state: enabled
+        permanent: true
+      notify: reload firewalld
+
+    # ------------------------------------------------------------------
+    # DHCP + DNS for guests on br-untrusted, via a dnsmasq instance
+    # bound only to that interface. Guests get an address automatically
+    # and resolve DNS through 10.99.0.1, which dnsmasq forwards to
+    # lan_dns_server itself (a host-originated lookup, not something
+    # routed through the vm-to-net policy below).
+    # ------------------------------------------------------------------
+
+    - name: Ensure dnsmasq is installed
+      ansible.builtin.package:
+        name: dnsmasq
+        state: present
+
+    - name: Write dnsmasq config for br-untrusted
+      ansible.builtin.copy:
+        dest: /etc/dnsmasq.d/br-untrusted.conf
+        owner: root
+        group: root
+        mode: "0644"
+        content: |
+          # Managed by vm-network-isolation.yml - do not edit by hand
+          interface={{ vm_bridge_iface }}
+          bind-interfaces
+          except-interface=lo
+          no-resolv
+          {% if lan_dns_server | length > 0 %}
+          server={{ lan_dns_server }}
+          {% endif %}
+          domain-needed
+          bogus-priv
+          dhcp-range={{ vm_dhcp_range_start }},{{ vm_dhcp_range_end }},{{ vm_bridge_netmask }},{{ vm_dhcp_lease_time }}
+          dhcp-option=option:router,{{ vm_bridge_addr }}
+          dhcp-option=option:dns-server,{{ vm_bridge_addr }}
+      notify: restart dnsmasq
+
+    - name: Ensure dnsmasq is running and enabled
+      ansible.builtin.service:
+        name: dnsmasq
+        state: started
+        enabled: true
+
+    # ------------------------------------------------------------------
+    # Masquerade on the uplink zone so VM traffic can NAT out
+    # ------------------------------------------------------------------
+
+    - name: Enable masquerade on uplink zone
+      ansible.posix.firewalld:
+        zone: "{{ uplink_zone }}"
+        masquerade: true
+        state: enabled
+        permanent: true
+      notify: reload firewalld
+
+    # ------------------------------------------------------------------
+    # Forwarding rules: block LAN, allow internet, via a firewalld
+    # policy object (zone-to-zone forwarding, firewalld >= 0.9).
+    # ansible.posix.firewalld has no parameter for policy objects, so
+    # these use firewall-cmd directly with idempotency handled by hand.
+    # ------------------------------------------------------------------
+
+    - name: Create vm-to-net policy
+      ansible.builtin.command: >
+        firewall-cmd --permanent --new-policy=vm-to-net
+      register: policy_create
+      changed_when: "'ALREADY_ENABLED' not in (policy_create.stderr | default(''))"
+      failed_when: policy_create.rc != 0 and 'NAME_CONFLICT' not in (policy_create.stderr | default(''))
+
+    - name: Set policy ingress zone to vm-untrusted
+      ansible.builtin.command: >
+        firewall-cmd --permanent --policy=vm-to-net --add-ingress-zone={{ vm_zone }}
+      register: pol_ingress
+      changed_when: "'ALREADY_ENABLED' not in (pol_ingress.stderr | default(''))"
+
+    - name: Set policy egress zone to ANY
+      ansible.builtin.command: >
+        firewall-cmd --permanent --policy=vm-to-net --add-egress-zone=ANY
+      register: pol_egress
+      changed_when: "'ALREADY_ENABLED' not in (pol_egress.stderr | default(''))"
+
+    - name: Drop policy traffic to blocked IPv4 ranges
+      ansible.builtin.command: >
+        firewall-cmd --permanent --policy=vm-to-net
+        --add-rich-rule='rule family="ipv4" destination address="{{ item }}" drop'
+      loop: "{{ blocked_ipv4_ranges }}"
+      register: pol_drop4
+      changed_when: "'ALREADY_ENABLED' not in (pol_drop4.stderr | default(''))"
+
+    - name: Set policy target to ACCEPT (everything not explicitly dropped above)
+      ansible.builtin.command: >
+        firewall-cmd --permanent --policy=vm-to-net --set-target=ACCEPT
+      register: pol_target
+      changed_when: "'ALREADY_ENABLED' not in (pol_target.stderr | default(''))"
+      notify: reload firewalld
+
+    # ------------------------------------------------------------------
+    # Belt-and-suspenders: force the runtime zone-interface binding to
+    # match the permanent config, every run. A `firewall-cmd --reload`
+    # (fired by several handlers above) can leave an interface's RUNTIME
+    # zone out of sync with its PERMANENT zone if NetworkManager isn't
+    # actively tracking it - this closes that gap unconditionally rather
+    # than relying on NM to reassert it.
+    # ------------------------------------------------------------------
+
+    - name: Reassert br-untrusted is bound to vm-untrusted zone at runtime
+      ansible.builtin.command: >
+        firewall-cmd --zone={{ vm_zone }} --change-interface={{ vm_bridge_iface }}
+      changed_when: true
+
+    - name: Show commands to verify result
+      ansible.builtin.debug:
+        msg:
+          - '###########################################'
+          - 'Commands to verify result'
+          - '###########################################'
+          - '# Show network device'
+          - 'ip addr show br-untrusted'
+          - '# qemu-bridge-helper is setuid (look for an s in the owner-exec bit)'
+          - 'ls -l {{ qemu_bridge_helper_path }}'
+          - '# br-untrusted is allow-listed for session-mode qemu'
+          - 'cat /etc/qemu/bridge.conf'
+          - '# confirm session VM users are in the kvm group (re-login needed after being added)'
+          - 'id alice; id bob'
+          - '# Show kernel param'
+          - 'sudo sysctl net.ipv4.ip_forward'
+          - '# Zone exists, DROP target, bridge bound to it, dhcp service enabled'
+          - 'sudo firewall-cmd --zone=vm-untrusted --list-all'
+          - '# Policy exists with the right ingress/egress and rules'
+          - 'sudo firewall-cmd --policy=vm-to-net --list-all'
+          - '# Uplink zone has masquerade on'
+          - 'sudo firewall-cmd --zone=public --list-all | grep masquerade'
+          - '# dnsmasq is bound only to br-untrusted, not the whole host'
+          - 'sudo ss -ulnp | grep dnsmasq'
+          - '# Watch DHCP leases get handed out'
+          - 'sudo journalctl -u dnsmasq -f'
+          - 'cat /var/lib/misc/dnsmasq.leases'
+
+  handlers:
+    - name: reload firewalld
+      ansible.builtin.command: firewall-cmd --reload
+
+    - name: restart dnsmasq
+      ansible.builtin.service:
+        name: dnsmasq
+        state: restarted
+

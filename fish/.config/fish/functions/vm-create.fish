@@ -53,6 +53,7 @@ function vm-create --description 'Create a new qemu dev vm'
         --channel spicevmc \
         --filesystem driver.type=virtiofs,source.dir=$HOME/vmshare,target.dir=vmshare \
         --filesystem driver.type=virtiofs,source.dir=$HOME/git-public,target.dir=git-public \
+        --network bridge=br-untrusted,model=virtio \
         --noautoconsole
     or return
 

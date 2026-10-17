@@ -1,0 +1,5 @@
+daemonize
+image=~/.config/swaylock/bg.png
+scaling=fit
+color=808080
+

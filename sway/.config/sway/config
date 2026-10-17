@@ -36,3 +36,5 @@ include key_bindings
 include window_title
 include autostart
 include theme
+include idle
+

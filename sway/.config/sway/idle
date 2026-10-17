@@ -1,0 +1,25 @@
+# Lock command (-f = fork after locking, needed so suspend waits for the lock)
+set $lock swaylock -f
+
+# Timeline:
+#   5 min  -> lock screen
+#  10 min  -> turn displays off
+#  30 min  -> suspend (then hibernate, see sleep.conf note below)
+exec swayidle -w \
+    timeout 30  'chayang -d 10 && $lock' \
+    timeout 600  'swaymsg "output * power off"' \
+         resume  'swaymsg "output * power on"' \
+    timeout 1800 'systemctl suspend-then-hibernate' \
+    before-sleep '$lock' \
+    after-resume 'swaymsg "output * power on"' \
+    lock         '$lock'
+
+# Manual lock: Mod+Escape (goes through logind so swayidle handles it)
+# bindsym $mod+Escape exec loginctl lock-session
+
+# Manual suspend: Mod+Shift+Escape
+# bindsym $mod+Shift+Escape exec systemctl suspend-then-hibernate
+
+# Don't go idle while something is fullscreen (videos, games)
+for_window [app_id=".*"] inhibit_idle fullscreen
+for_window [class=".*"]  inhibit_idle fullscreen
